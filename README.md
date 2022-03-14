@@ -9,12 +9,17 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
 
 ## :mag: Contents
 
-1. [ Installation ](#computer-installation)
+1. [ Documentation ](#book-documentation) 
+2. [ Installation ](#computer-installation)
    1. [ conda installation ](#conda-installation)
    2. [ pip installation ](#pip-installation)
-2. [ Examples ](#keyboard-examples)
-3. [ Citing ](#newspaper-citing)
-4. [ Collaborators ](#envelope-collaborators)
+3. [ Examples ](#keyboard-examples)
+4. [ Citing ](#newspaper-citing)
+5. [ Collaborators ](#envelope-collaborators)
+
+## :book: Documentation
+
+Colocar aqui link para site de documentação oficial da biblioteca hospedado em algum servidor do github.io
 
 ## :computer: Installation
 
