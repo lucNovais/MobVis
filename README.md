@@ -1,7 +1,5 @@
 # :bar_chart: <span style="font-weight: bold;">Mob<span style="color: red;">Vis</span></span>
 
-<hr />
-
 <div align="justify">
 MobVis is an open source Python library for perform analysis about mobility data in a simple way.
 With this framework, it is possible to extract metrics and visualize data from different sources.
@@ -17,8 +15,6 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
 2. [ Examples ](#keyboard-examples)
 3. [ Citing ](#newspaper-citing)
 4. [ Collaborators ](#envelope-collaborators)
-
-<hr />
 
 ## :computer: Installation
 
@@ -49,8 +45,6 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
 2. Lorem ipsum dolor sit amet
 3. Lorem ipsum dolor sit amet
 
-<hr />
-
 ## :keyboard: Examples
 
 <ul>
@@ -73,15 +67,11 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor i
 
 </ul>
 
-<hr />
-
 ## :newspaper: Citing
 
 <p>
    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
 </p>
-
-<hr />
 
 ## :envelope: Collaborators
 
