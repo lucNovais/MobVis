@@ -41,18 +41,24 @@ class TravelTime(IMetric):
                 elif row[1].sl != prev_row.sl:
                     trvt = row[1].timestamp - prev_row.timestamp
 
-                    new_row = {
-                        'id': row[1].id,
-                        'init_sl': prev_row.sl,
-                        'final_sl': row[1].sl,
-                        't_exit': prev_row.timestamp,
-                        't_arrival': row[1].timestamp,
-                        'travel_time': trvt
-                    }
-                    trvt_df = trvt_df.append(new_row, ignore_index=True)
+                    new_row = pd.DataFrame({
+                        'id': [row[1].id],
+                        'init_sl': [prev_row.sl],
+                        'final_sl': [row[1].sl],
+                        't_exit': [prev_row.timestamp],
+                        't_arrival': [row[1].timestamp],
+                        'travel_time': [trvt]
+                    })
+                    
+                    trvt_df = pd.concat([trvt_df, new_row], ignore_index=True)
 
             prev_row = row[1]
                     
         print('Travel Distance extracted successfully!\n')
 
         return trvt_df
+
+    def export(self):
+        """Method that exports the extracted metric to a specific format file.
+        """
+        pass

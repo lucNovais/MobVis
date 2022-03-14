@@ -85,7 +85,7 @@ class Locations:
 
         `trace` (pandas.DataFrame): DataFrame corresponding to the parsed trace.
         `max_d` (float): Maximum distance to a region be considered a Stay-location.
-        `pause_threshold` (float): Ammout of waiting time to the Stay-location be considered a Geo-location.
+        `pause_threshold` (float): Ammout of waiting time to the Stay-location be considered a Geo-location (in minutes).
         `dist_type` (str): Distance formula. Supported types are: Haversine and Euclidean.
         
         Returns:

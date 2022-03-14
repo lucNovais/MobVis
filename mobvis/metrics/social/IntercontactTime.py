@@ -49,4 +49,6 @@ class IntercontactTime(IMetric):
         return inco_df
 
     def export(self):
+        """Method that exports the extracted metric to a specific format file.
+        """
         pass

@@ -44,12 +44,14 @@ class VisitTime(IMetric):
                         depearture_time = prev_row.timestamp
                         visit_time = depearture_time - arrival_time
 
-                        vist_df = vist_df.append({
-                            'id': prev_row.id,
-                            'timestamp': prev_row.timestamp,
-                            'sl': prev_row.sl,
-                            'visit_time': visit_time
-                        }, ignore_index=True)
+                        new_row = pd.DataFrame({
+                            'id': [prev_row.id],
+                            'timestamp': [prev_row.timestamp],
+                            'sl': [prev_row.sl],
+                            'visit_time': [visit_time]
+                        })
+
+                        vist_df = pd.concat([vist_df, new_row], ignore_index=True)
 
                         arrival_time = curr_row.timestamp
                 else:
@@ -63,4 +65,6 @@ class VisitTime(IMetric):
         return vist_df
 
     def export(self):
+        """Method that exports the extracted metric to a specific format file.
+        """
         pass
