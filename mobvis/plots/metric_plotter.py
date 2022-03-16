@@ -37,7 +37,7 @@ def config_histogram_plot(metric_type, differ_nodes):
 
 @Timer.timed
 def plot_metric_histogram(metric_df, initial_id, metric_type, differ_nodes=False, nodes_list=None, max_users=None, num_bins=None, hnorm=None,
-                         show_title=True, show_y_label = True, img_width=600, img_height=560, title='Histograma '):
+                         show_title=True, show_y_label = True, img_width=600, img_height=560, title='Histogram '):
     print(f'Generating the {metric_type} histogram...')
 
     [x_values, cmap, title_complement] = config_histogram_plot(metric_type, differ_nodes)
@@ -115,7 +115,7 @@ def plot_metric_histogram(metric_df, initial_id, metric_type, differ_nodes=False
     else:
         margin_dict['l'] = 12
         margin_dict['r'] = 10
-        y_title = 'Número de Ocorrências'
+        y_title = 'Occurrences'
 
     fig.update_layout(
         width=img_width,
@@ -247,7 +247,7 @@ def boxplot_metric(metric_df, initial_id, metric_type, differ_nodes=False, nodes
     return fig
 
 def plot_metric_dist(metric_df, initial_id, metric_type, differ_nodes=False, nodes_list=None, max_users=None,
-                    show_title=True, show_y_label = True, img_width=600, img_height=560, title='Distribuição '):
+                    show_title=True, show_y_label = True, img_width=600, img_height=560, title='Distribution '):
     [x_values, cmap, title_complement] = config_histogram_plot(metric_type, differ_nodes)
 
     if 'id' in metric_df.columns:

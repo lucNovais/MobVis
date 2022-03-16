@@ -37,11 +37,14 @@ class IntercontactTime(IMetric):
             if index != 0:
                 if row[1].id1 == prev_row[1].id1 and row[1].id2 == prev_row[1].id2:
                     inco = row[1].timestamp - prev_row[1].timestamp
-                    inco_df = inco_df.append({
-                        'id1': row[1].id1,
-                        'id2': row[1].id2,
-                        'intercontact_time': inco
-                    }, ignore_index=True)
+
+                    new_row = pd.DataFrame({
+                        'id1': [row[1].id1],
+                        'id2': [row[1].id2],
+                        'intercontact_time': [inco]
+                    })
+
+                    inco_df = pd.concat([inco_df, new_row], ignore_index=True)
 
             prev_row = row
             

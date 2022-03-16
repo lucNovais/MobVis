@@ -7,6 +7,9 @@ from mobvis.metrics.utils.IMetric import IMetric
 from scipy.spatial import distance
 from mobvis.utils.Utils import haversine
 
+# TODO: Distancia de cada posição do trace. d(pk, pk+1) p/ todo p
+# TODO: Velocidade media
+
 class TravelDistance(IMetric):
     def __init__(self, trace_loc, dist_type):
         """Class that corresponds to the Travel Distance spatial metric.

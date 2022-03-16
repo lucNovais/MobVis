@@ -1,7 +1,3 @@
-from mimetypes import init
-from stat import S_IWOTH
-from turtle import title
-import pandas as pd
 
 from mobvis.preprocessing import extractor as mc_extractor
 from mobvis.plots import metric_plotter, spatial_plotter

@@ -8,7 +8,7 @@ import plotly.figure_factory as ff
 from mobvis.utils.Utils import fix_size_conditions
 from mobvis.utils.Utils import find_ranges
 
-def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, max_users=None,
+def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, number_of_nodes=None,
                show_title=True, show_y_label=True, title='Trace Movements', md='markers', img_width=600, img_height=560, **kwargs):
     """Function to generate a figure of a trace movements with a heatmap indicating the timestamps.
 
@@ -18,7 +18,7 @@ def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, max_users=
     `df_type` (str): String indicating the origin of the trace.
     `nodes_list` (int[]): If specified, the plot will consider only the movements of the nodes on the list.
     `differ_nodes` (bool): If true, each node on the trace will have a different symbol.
-    `max_users` (int): Number of users that will appear on the plot.
+    `number_of_nodes` (int): Number of users that will appear on the plot.
     `title` (str): Title of the graph.
     `md` (str): Plot mode, default value will only plot the scatter markers.
     `img_width` (int): Image width.
@@ -31,7 +31,7 @@ def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, max_users=
     original_size = trace.id.size
 
     # original_size, initial_id, df, limit, max_points, user_ids
-    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, max_users, nodes_list)
+    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, number_of_nodes, nodes_list)
 
     if differ_nodes:
         # If the user chooses to differ the nodes by their ids, every user will have a different symbol.
@@ -139,7 +139,7 @@ def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, max_users=
     return fig
 
 
-def plot_trace3d(trace, initial_id, nodes_list=None, differ_nodes=True, max_users=None,
+def plot_trace3d(trace, initial_id, nodes_list=None, differ_nodes=True, number_of_nodes=None,
                  show_title=True, show_y_label=True, title='Trace Movements', md='markers+lines', img_width=600, img_height=560, **kwargs):
     """Function to generate a figure of a trace movements in three dimensions, with a heatmap.
 
@@ -149,7 +149,7 @@ def plot_trace3d(trace, initial_id, nodes_list=None, differ_nodes=True, max_user
     `df_type` (str): String indicating the origin of the trace.
     `nodes_list` (int[]): If specified, the plot will consider only the movements of the nodes on the list.
     `differ_nodes` (bool): If true, each node on the trace will have a different symbol.
-    `max_users` (int): Number of users that will appear on the plot.
+    `number_of_nodes` (int): Number of users that will appear on the plot.
     `title` (str): Title of the graph.
     `md` (str): Plot mode, default value will only plot the scatter markers.
     `img_width` (int): Image width.
@@ -161,7 +161,7 @@ def plot_trace3d(trace, initial_id, nodes_list=None, differ_nodes=True, max_user
     """
     original_size = trace.id.size
 
-    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, max_users, nodes_list)
+    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, number_of_nodes, nodes_list)
 
     if differ_nodes:
         smap = 'id'
@@ -267,7 +267,7 @@ def plot_trace3d(trace, initial_id, nodes_list=None, differ_nodes=True, max_user
 
     return fig
 
-def plot_locations(trace, sl_centers, initial_id, nodes_list=[0], max_users=None, limit_locations=False,
+def plot_locations(trace, sl_centers, initial_id, nodes_list=[0], number_of_nodes=None, limit_locations=False,
                   show_title=True, show_y_label=True, title='Stay Locations', img_width=600, img_height=560, **kwargs):
     """Function to generate a figure of the stay locations visited by a node or a group of nodes.
 
@@ -278,7 +278,7 @@ def plot_locations(trace, sl_centers, initial_id, nodes_list=[0], max_users=None
     `df_type` (str): String indicating the origin of the trace.
     `nodes_list` (int[]): If specified, the plot will consider only the locations visited by the nodes on the list.
     `differ_nodes` (bool): If true, each node on the trace will have a different symbol.
-    `max_users` (int): Number of users that will appear on the plot.
+    `number_of_nodes` (int): Number of users that will appear on the plot.
     `title` (str): Title of the graph.
     `img_width` (int): Image width.
     `img_height` (int): Image height.
@@ -290,9 +290,9 @@ def plot_locations(trace, sl_centers, initial_id, nodes_list=[0], max_users=None
 
     original_size = trace.id.size
 
-    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, max_users, nodes_list)
+    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, number_of_nodes, nodes_list)
 
-    sl_centers = fix_size_conditions(original_size, initial_id, sl_centers, 10, max_users, nodes_list)
+    sl_centers = fix_size_conditions(original_size, initial_id, sl_centers, 10, number_of_nodes, nodes_list)
 
     [xrange, yrange] = find_ranges(trace)
 
@@ -420,7 +420,7 @@ def plot_locations(trace, sl_centers, initial_id, nodes_list=[0], max_users=None
 
     return fig
 
-def plot_density(trace, initial_id, nodes_list=None, max_users=None, xrange=None, yrange=None,
+def plot_density(trace, initial_id, nodes_list=None, number_of_nodes=None, xrange=None, yrange=None,
                 show_title=True, show_y_label=True, title='Density', md='markers', img_width=600, img_height=560, **kwargs):
     """Function that generates a figure corresponding to the density of the trace movements.
 
@@ -429,7 +429,7 @@ def plot_density(trace, initial_id, nodes_list=None, max_users=None, xrange=None
     `trace` (pandas.DataFrame): DataFrame corresponding to the trace.
     `df_type` (str): String indicating the origin of the trace.
     `nodes_list` (int[]): If specified, the plot will consider only the locations visited by the nodes on the list.
-    `max_users` (int): Number of users that will appear on the plot.
+    `number_of_nodes` (int): Number of users that will appear on the plot.
     `title` (str): Title of the graph.
     `img_width` (int): Image width.
     `img_height` (int): Image height.    
@@ -441,7 +441,7 @@ def plot_density(trace, initial_id, nodes_list=None, max_users=None, xrange=None
 
     original_size = trace.id.size
 
-    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, max_users, nodes_list)
+    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, number_of_nodes, nodes_list)
 
     fig = go.Figure()
 
@@ -558,11 +558,11 @@ def plot_density(trace, initial_id, nodes_list=None, max_users=None, xrange=None
 
     return fig
 
-def plot_animated_movements(trace, initial_id, nodes_list=None, differ_nodes=True, max_users=None, speed_multiplier=1,
+def plot_animated_movements(trace, initial_id, nodes_list=None, differ_nodes=True, number_of_nodes=None, speed_multiplier=1,
                             show_title=True, show_y_label=True, title='Trace Animated Movements', md='markers', img_width=600, img_height=560, **kwargs):
     original_size = trace.id.size
 
-    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, max_users, nodes_list)
+    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, number_of_nodes, nodes_list)
 
     if differ_nodes:
         cmap = 'id'
@@ -601,7 +601,7 @@ def plot_animated_movements(trace, initial_id, nodes_list=None, differ_nodes=Tru
     )
 
     # if with_hl:
-    #     hldf = utils.fix_size_conditions(original_size, hl_df, 5, max_users, user_ids)
+    #     hldf = utils.fix_size_conditions(original_size, hl_df, 5, number_of_nodes, user_ids)
 
     #     fig.add_trace(go.Scatter(
     #         x=hldf.lng,
@@ -682,13 +682,13 @@ def plot_animated_movements(trace, initial_id, nodes_list=None, differ_nodes=Tru
 
     return fig
 
-def plot_visit_order(trace, initial_id, nodes_list=None, max_users=None,
+def plot_visit_order(trace_viso, initial_id, nodes_list=None, number_of_nodes=None,
                     show_title=True, show_y_label=True, title='Visit Order', md='markers', img_width=600, img_height=560, **kwargs):
     print('\nGenerating the Visit Order plot...')
 
-    original_size = trace.id.size
+    original_size = trace_viso.id.size
 
-    plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, max_users, nodes_list)
+    plt_trace = fix_size_conditions(original_size, initial_id, trace_viso, 10, number_of_nodes, nodes_list)
 
     [xrange, yrange] = find_ranges(plt_trace)
 

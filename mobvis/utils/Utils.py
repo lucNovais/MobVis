@@ -38,10 +38,10 @@ def filter_df(full_df, min_index=None, max_index=None, uids_list=None):
 
     if not uids_list:
         for i in range(int(min_index), int(max_index)):
-            df = df.append(full_df.loc[full_df.id == i], ignore_index=True)
+            df = pd.concat([df, full_df.loc[full_df.id == i]], ignore_index=True)
     else:
         for i in uids_list:
-            df = df.append(full_df.loc[full_df.id == i], ignore_index=True)
+            df = pd.concat([df, full_df.loc[full_df.id == i]], ignore_index=True)
 
     return df
 

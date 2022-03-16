@@ -50,7 +50,7 @@ class Contacts:
                 if row1[0] != row2[0]:
                     edges.append((row1[0], row2[0], lat1, lon1, lat2, lon2, row1[1]))
 
-        contacts_df = pd.DataFrame(edges, columns=['id1', 'id2', 'x1', 'y1', 'x2', 'y2', 't'])
+        contacts_df = pd.DataFrame(edges, columns=['id1', 'id2', 'x1', 'y1', 'x2', 'y2'])
 
         return contacts_df
 
@@ -74,7 +74,7 @@ class Contacts:
         print(f'\nParameters:\nContact Radius: {radius}\nDistance Formula: {dist_type}')
 
         timestamps = df.timestamp.unique()
-        contacts = pd.DataFrame(columns=['id1', 'id2', 'x1', 'y1', 'x2', 'y2', 't'])
+        contacts = pd.DataFrame(columns=['id1', 'id2', 'x1', 'y1', 'x2', 'y2'])
 
         if dist_type.lower() == 'haversine':
             for t in timestamps:
