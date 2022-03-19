@@ -1,4 +1,4 @@
-<img src="images/logo_full.png" />
+<img src="images/logo_full.png" width=403.16 height=80 />
 
 <div align="justify">
 MobVis is an open source Python library for perform analysis about mobility data in a simple way.
