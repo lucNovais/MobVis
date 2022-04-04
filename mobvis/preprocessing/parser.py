@@ -1,3 +1,4 @@
+from tkinter.tix import COLUMN
 import pandas as pd
 
 from mobvis.utils import Timer
@@ -6,7 +7,8 @@ from mobvis.utils import Converters
 SUPPORTED_TIMESTAMPS = [
     'datetime',
     'date',
-    'time'
+    'time',
+    'gps_time'
 ]
 
 SUPPORTED_COORDINATES = [
@@ -17,6 +19,13 @@ SUPPORTED_COORDINATES = [
     'longitude'
 ]
 
+SUPPORTED_IDENTIFIERS = [
+    'i',
+    'id',
+    'identifier',
+    'uid',
+    'node_id'
+]
 
 pd.set_option('display.precision', 10)
 
@@ -41,17 +50,6 @@ class Parser:
         """
         print('Parsing the given DataFrame...')
 
-        if raw_trace.columns.size == 1:
-            raw_trace[raw_trace_cols] = raw_trace[raw_trace.columns[0]].str.split(' ', expand=True)
-            raw_trace.drop(raw_trace.columns[0], axis=1, inplace=True)
-        else:
-            raw_trace.rename(columns={
-                0: raw_trace_cols[0],
-                1: raw_trace_cols[1],
-                2: raw_trace_cols[2],
-                3: raw_trace_cols[3]
-            }, inplace=True)
-
         initial_id = int(raw_trace.id[0])
 
         std_trace = cls.check_columns(raw_trace, raw_trace_cols)
@@ -71,27 +69,36 @@ class Parser:
         """
         default_order = ['id', 'timestamp', 'x', 'y']
 
+        if len(raw_trace.columns) < 4:
+            # Make this same thing but with exceptions handling
+            print("\nERROR: Trace has less rows than expected")
+            return
+        elif len(raw_trace.columns) > 4:
+            COLUMNS_FILTER = SUPPORTED_TIMESTAMPS + SUPPORTED_COORDINATES + SUPPORTED_IDENTIFIERS
+
+            raw_trace = raw_trace[raw_trace.columns.intersection(COLUMNS_FILTER)]
+
         # Check if the timestamps column in the raw trace are on the datetime format, and consider some
         # possible names on the SUPPORTED_TIMESTAMPS array (case insensitive).
-        raw_timestamp = [item for item in raw_trace_cols if item.lower() in SUPPORTED_TIMESTAMPS]
+        raw_timestamp = [item for item in raw_trace.columns if item.lower() in SUPPORTED_TIMESTAMPS]
         if raw_timestamp:
-            if raw_timestamp != 'time':
+            if 'date' in raw_timestamp:
                 raw_trace = Converters.convert_datetime(raw_trace)
             raw_trace.rename(columns={raw_timestamp: 'timestamp'}, inplace=True)
 
         # Check if the coordinates column in the raw trace are on the lat/long format, and consider some
         # possible names on the SUPPORTED_COORDINATES array (case insensitive).
-        raw_coord = [item for item in raw_trace_cols if item.lower() in SUPPORTED_COORDINATES]
+        raw_coord = [item for item in raw_trace.columns if item.lower() in SUPPORTED_COORDINATES]
         if raw_coord:
             raw_trace.rename(columns={raw_coord[0]: 'y', raw_coord[1]: 'x'}, inplace=True)
-            for i, col in enumerate(raw_trace_cols):
+            for i, col in enumerate(raw_trace.columns):
                 if col == raw_coord[0]:
-                    raw_trace_cols[i] = 'y'
+                    raw_trace.columns[i] = 'y'
                 if col == raw_coord[1]:
-                    raw_trace_cols[i] = 'x'
+                    raw_trace.columns[i] = 'x'
 
         # Sorts the dataframe columns according to the default library order
-        std_trace_cols = [item for x in default_order for item in raw_trace_cols if item == x]
+        std_trace_cols = [item for x in default_order for item in raw_trace.columns if item == x]
         # Sets the dataframe to the default order
         std_trace = raw_trace[std_trace_cols]
         
