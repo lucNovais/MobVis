@@ -35,13 +35,12 @@ class Parser:
 
     @classmethod
     @Timer.timed
-    def parse(cls, raw_trace, raw_trace_cols, is_ordered):
+    def parse(cls, raw_trace, is_ordered):
         """Method that converts the given DataFrame to the MobVis standard format.
 
         Parameters:
 
         `raw_trace` (pandas.DataFrame): Raw DataFrame containing the original trace.
-        `raw_trace_cols` (str[]): Array containing the names of the raw trace columns in order.
         `is_ordered` (bool): 'True' if the rows of the raw DataFrame are ordered by the id and timestamps, `False` otherwise.
 
         Returns:
@@ -50,10 +49,10 @@ class Parser:
         """
         print('Parsing the given DataFrame...')
 
-        initial_id = int(raw_trace.id[0])
+        # initial_id = int(raw_trace.id[0])
 
-        std_trace = cls.check_columns(raw_trace, raw_trace_cols)
-        std_trace = cls.fix_timestamps(std_trace, initial_id)
+        std_trace = cls.check_columns(raw_trace)
+        std_trace = cls.fix_timestamps(std_trace)
 
         if not is_ordered:
             std_trace = cls.order_rows(std_trace)
@@ -63,7 +62,7 @@ class Parser:
 
         return std_trace
 
-    def check_columns(raw_trace, raw_trace_cols):
+    def check_columns(raw_trace):
         """Detects the columns informed for the raw trace and performs the procedures to convert
            them to the standard MobVis format.
         """
@@ -82,8 +81,9 @@ class Parser:
         # possible names on the SUPPORTED_TIMESTAMPS array (case insensitive).
         raw_timestamp = [item for item in raw_trace.columns if item.lower() in SUPPORTED_TIMESTAMPS]
         if raw_timestamp:
-            if 'date' in raw_timestamp:
-                raw_trace = Converters.convert_datetime(raw_trace)
+            raw_timestamp = raw_timestamp[0]
+            if type(raw_trace[raw_timestamp][0]) == str:
+                raw_trace = Converters.convert_datetime(raw_trace, raw_timestamp)
             raw_trace.rename(columns={raw_timestamp: 'timestamp'}, inplace=True)
 
         # Check if the coordinates column in the raw trace are on the lat/long format, and consider some
@@ -115,7 +115,7 @@ class Parser:
         return std_trace
 
     @classmethod
-    def fix_timestamps(cls, std_trace, initial_id):
+    def fix_timestamps(cls, std_trace):
         """Takes the smallest timestamp from the original trace and uses it as the zero timestamp.
            From there, it defines the other timestamps of the trace from the difference of the original
            timestamps and the smallest timestamp.
@@ -128,7 +128,8 @@ class Parser:
 
         fixed_timestamps = []
 
-        first_timestamp = std_trace.loc[std_trace.id == initial_id].timestamp.values[0]
+        # first_timestamp = std_trace.loc[std_trace.id == initial_id].timestamp.values[0]
+        first_timestamp = std_trace['timestamp'].min()
         for i in std_trace.id.unique():
             current_timestamp = std_trace.loc[std_trace.id == i].timestamp.values[0]
             if current_timestamp < first_timestamp:
