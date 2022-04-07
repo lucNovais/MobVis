@@ -4,28 +4,7 @@ import pandas as pd
 from mobvis.utils import Timer
 from mobvis.utils import Converters
 
-SUPPORTED_TIMESTAMPS = [
-    'datetime',
-    'date',
-    'time',
-    'gps_time'
-]
-
-SUPPORTED_COORDINATES = [
-    'lat',
-    'lng',
-    'long',
-    'latitude',
-    'longitude'
-]
-
-SUPPORTED_IDENTIFIERS = [
-    'i',
-    'id',
-    'identifier',
-    'uid',
-    'node_id'
-]
+import mobvis.utils.constants as constants
 
 pd.set_option('display.precision', 10)
 
@@ -49,8 +28,6 @@ class Parser:
         """
         print('Parsing the given DataFrame...')
 
-        # initial_id = int(raw_trace.id[0])
-
         std_trace = cls.check_columns(raw_trace)
         std_trace = cls.fix_timestamps(std_trace)
 
@@ -66,29 +43,33 @@ class Parser:
         """Detects the columns informed for the raw trace and performs the procedures to convert
            them to the standard MobVis format.
         """
+        print('Checking the raw trace columns...')
         default_order = ['id', 'timestamp', 'x', 'y']
 
         if len(raw_trace.columns) < 4:
-            # Make this same thing but with exceptions handling
-            print("\nERROR: Trace has less rows than expected")
-            return
+            # If the trace has less than the 4 mandatory columns, raise a error to the user.
+            raise ValueError('Raw trace must have at least 4 columns, containing.the following information: Timestamp, Identifier, Coordinates')
         elif len(raw_trace.columns) > 4:
-            COLUMNS_FILTER = SUPPORTED_TIMESTAMPS + SUPPORTED_COORDINATES + SUPPORTED_IDENTIFIERS
+            # If the trace has more than the 4 mandatory columns, filter and select only the mandatory ones.
+            COLUMNS_FILTER = constants.SUPPORTED_TIMESTAMPS + constants.SUPPORTED_COORDINATES + constants.SUPPORTED_IDENTIFIERS
+
+            raw_trace.columns = map(str.lower, raw_trace.columns)
 
             raw_trace = raw_trace[raw_trace.columns.intersection(COLUMNS_FILTER)]
 
         # Check if the timestamps column in the raw trace are on the datetime format, and consider some
         # possible names on the SUPPORTED_TIMESTAMPS array (case insensitive).
-        raw_timestamp = [item for item in raw_trace.columns if item.lower() in SUPPORTED_TIMESTAMPS]
+        raw_timestamp = [item for item in raw_trace.columns if item.lower() in constants.SUPPORTED_TIMESTAMPS]
         if raw_timestamp:
             raw_timestamp = raw_timestamp[0]
             if type(raw_trace[raw_timestamp][0]) == str:
+                # Check if the timestamp column are a datetime string, then convert it to the datetime format
                 raw_trace = Converters.convert_datetime(raw_trace, raw_timestamp)
             raw_trace.rename(columns={raw_timestamp: 'timestamp'}, inplace=True)
 
         # Check if the coordinates column in the raw trace are on the lat/long format, and consider some
         # possible names on the SUPPORTED_COORDINATES array (case insensitive).
-        raw_coord = [item for item in raw_trace.columns if item.lower() in SUPPORTED_COORDINATES]
+        raw_coord = [item for item in raw_trace.columns if item.lower() in constants.SUPPORTED_COORDINATES]
         if raw_coord:
             raw_trace.rename(columns={raw_coord[0]: 'y', raw_coord[1]: 'x'}, inplace=True)
             for i, col in enumerate(raw_trace.columns):
@@ -121,14 +102,16 @@ class Parser:
            timestamps and the smallest timestamp.
         """
         print('Fixing the timestamps...')
-        std_trace['timestamp'] = std_trace['timestamp'].astype(float)
-        std_trace['id'] = std_trace['id'].astype(int)
-        std_trace['x'] = std_trace['x'].astype(float)
-        std_trace['y'] = std_trace['y'].astype(float)
+        try:
+            std_trace['timestamp'] = std_trace['timestamp'].astype(float)
+            std_trace['id'] = std_trace['id'].astype(int)
+            std_trace['x'] = std_trace['x'].astype(float)
+            std_trace['y'] = std_trace['y'].astype(float)
+        except KeyError:
+            raise KeyError('The provided trace does not contain the four required columns: Timestamp, Identifier and Coordinates')
 
         fixed_timestamps = []
 
-        # first_timestamp = std_trace.loc[std_trace.id == initial_id].timestamp.values[0]
         first_timestamp = std_trace['timestamp'].min()
         for i in std_trace.id.unique():
             current_timestamp = std_trace.loc[std_trace.id == i].timestamp.values[0]

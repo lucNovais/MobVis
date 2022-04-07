@@ -12,7 +12,7 @@ def fix_size_conditions(original_size, initial_id, df, limit, max_points, user_i
 
     `original_size` (int): Number of nodes of the original trace.
     `initial_id` (int): First node identifier value of the trace.
-    `df` (pandas.DataFrame): Oiriginal trace.
+    `df` (pandas.DataFrame): Original trace.
     `limit` (int): Limit of nodes to be displayed on the image.
     `max_points` (int): Number of users that will appear on the plot.
     `user_ids` (int[]): List of specific users to be plotted.

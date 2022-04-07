@@ -36,7 +36,7 @@ def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, number_of_
     if differ_nodes:
         # If the user chooses to differ the nodes by their ids, every user will have a different symbol.
         smap = 'id'
-        img_width += 40
+        img_width += 140
     else:
         smap = None
 
@@ -70,11 +70,11 @@ def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, number_of_
         margin_dict = dict(t=10, b=25)
 
     if not show_y_label:
-        margin_dict['l'] = 10
+        margin_dict['l'] = 12
         margin_dict['r'] = 10
         y_title = None
     else:
-        margin_dict['l'] = 12
+        margin_dict['l'] = 14
         margin_dict['r'] = 10
         y_title = 'y'
 
@@ -103,22 +103,25 @@ def plot_trace(trace, initial_id, nodes_list=None, differ_nodes=True, number_of_
     )
 
     fig.update_yaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=yrange
     )
     fig.update_xaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=xrange
     )
 
     if differ_nodes:
         fig.update_layout(
+            margin=dict(l=220),
             legend=dict(
                 yanchor='top',
                 xanchor='left',
-                x=-0.34
+                x=-0.52,
+                borderwidth=1,
+                bgcolor="#F8F8F8"
         ))
 
     customdata = np.stack((plt_trace['id'], plt_trace['timestamp']))
@@ -165,7 +168,7 @@ def plot_trace3d(trace, initial_id, nodes_list=None, differ_nodes=True, number_o
 
     if differ_nodes:
         smap = 'id'
-        img_width += 40
+        img_width += 140
     else:
         smap = None
 
@@ -245,22 +248,25 @@ def plot_trace3d(trace, initial_id, nodes_list=None, differ_nodes=True, number_o
     )
 
     fig.update_yaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=yrange
     )
     fig.update_xaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=xrange
     )
 
     if differ_nodes:
         fig.update_layout(
+            margin=dict(l=220),
             legend=dict(
                 yanchor='top',
                 xanchor='left',
-                x=-0.34
+                x=-0.52,
+                borderwidth=1,
+                bgcolor="#E2E2E2"
         ))
 
     print('\nSuccessfully generated plot!')
@@ -287,10 +293,15 @@ def plot_locations(trace, sl_centers, initial_id, nodes_list=[0], number_of_node
 
     `fig` (plotly.scatter): Plotly figure corresponding to the stay locations visited by the node/nodes.
     """
+    # TODO: Fix this plot.
 
     original_size = trace.id.size
 
+    print(trace.head())
+
     plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, number_of_nodes, nodes_list)
+
+    print(plt_trace.head())
 
     sl_centers = fix_size_conditions(original_size, initial_id, sl_centers, 10, number_of_nodes, nodes_list)
 
@@ -483,12 +494,12 @@ def plot_density(trace, initial_id, nodes_list=None, number_of_nodes=None, xrang
 
     fig.update_yaxes(
         title='y',
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26
     )
     fig.update_xaxes(
         title='x',
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26
     )
 
@@ -566,7 +577,7 @@ def plot_animated_movements(trace, initial_id, nodes_list=None, differ_nodes=Tru
 
     if differ_nodes:
         cmap = 'id'
-        img_width += 40
+        img_width += 140
     else:
         cmap = None
 
@@ -660,19 +671,22 @@ def plot_animated_movements(trace, initial_id, nodes_list=None, differ_nodes=Tru
 
     if differ_nodes:
         fig.update_layout(
+            margin=dict(l=220),
             legend=dict(
                 yanchor='top',
                 xanchor='left',
-                x=-0.34
+                x=-0.52,
+                borderwidth=1,
+                bgcolor="#E2E2E2"
         ))
 
     fig.update_yaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=yrange
     )
     fig.update_xaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=xrange
     )
@@ -759,12 +773,12 @@ def plot_visit_order(trace_viso, initial_id, nodes_list=None, number_of_nodes=No
     )
     
     fig.update_yaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=yrange
     )
     fig.update_xaxes(
-        tickfont=dict(size=24),
+        tickfont=dict(size=22),
         title_font_size=26,
         range=xrange
     )
