@@ -33,36 +33,34 @@ Colocar aqui link para site de documentação oficial da biblioteca hospedado em
 
 ### Steps:
 
-1. Clone the repository
+**1.** Clone the repository
    ```bash
    git clone https://github.com/lucNovais/MobVis.git
    ```
 
-2. Move to the repository directory
+**2.** Move to the repository directory
    ```bash
    cd MobVis
    ```
 
-3. Create a `conda` environment with the `requirements.yml` file
+**3.** Create a `conda` environment with the `requirements.yml` file
    ```bash
    conda env create -f requirements.yml
    ```
 
-4. Activate the environment
+**4.** Activate the environment
    ```bash
    conda activate mobvis
    ```
 
-5. Install the MobVis library locally
+**5.** Install the MobVis library locally
    ```bash
    pip install -e .
   ```
 
-6. Jupyter notebooks are recomended for running the library
+**6.** Jupyter notebooks are recomended for running the library
    ```bash
    conda install jupyterlab
-   ```
-   ```bash
    jupyter-lab
    ```
 
