@@ -23,32 +23,48 @@ Colocar aqui link para site de documentação oficial da biblioteca hospedado em
 
 ## :computer: Installation
 
-### conda installation
+### Requirements:
 
-1. Create an conda environment
+<ul>
+  <li>Python 3.9
+  <li>conda 4.12
+  <li>pip 21.4
+</ul>
+
+### Steps:
+
+1. Clone the repository
    ```bash
-   conda env create -f mobvis_req.yml
+   git clone https://github.com/lucNovais/MobVis.git
    ```
 
-2. Activate the environment
+2. Move to the repository directory
+   ```bash
+   cd MobVis
+   ```
+
+3. Create a `conda` environment with the `requirements.yml` file
+   ```bash
+   conda env create -f requirements.yml
+   ```
+
+4. Activate the environment
    ```bash
    conda activate mobvis
    ```
 
-3. Install the library locally with pip
+5. Install the MobVis library locally
    ```bash
-   cd ../
-   ```
+   pip install -e .
+  ```
 
+6. Jupyter notebooks are recomended for running the library
    ```bash
-   pip install -e mobvis
+   conda install jupyterlab
    ```
-
-### pip installation
-
-1. Lorem ipsum dolor sit amet
-2. Lorem ipsum dolor sit amet
-3. Lorem ipsum dolor sit amet
+   ```bash
+   jupyter-lab
+   ```
 
 ## :keyboard: Examples
 
