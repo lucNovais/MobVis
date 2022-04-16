@@ -1,26 +1,44 @@
 name: mobvis
 channels:
+  - conda-forge
   - defaults
 dependencies:
   - _libgcc_mutex=0.1=main
   - _openmp_mutex=4.5=1_gnu
   - blas=1.0=mkl
   - bottleneck=1.3.4=py39hce1f21e_0
-  - ca-certificates=2022.3.29=h06a4308_0
-  - certifi=2021.10.8=py39h06a4308_2
+  - ca-certificates=2021.10.8=ha878542_0
+  - certifi=2021.10.8=py39hf3d152e_2
+  - expat=2.2.10=h9c3ff4c_0
+  - font-ttf-dejavu-sans-mono=2.37=hab24e00_0
+  - font-ttf-inconsolata=3.000=h77eed37_0
+  - font-ttf-source-code-pro=2.038=h77eed37_0
+  - font-ttf-ubuntu=0.83=hab24e00_0
+  - fontconfig=2.13.1=h6c09931_0
+  - fonts-conda-forge=1=0
+  - freetype=2.10.4=h0708190_1
+  - icu=67.1=he1b5a44_0
   - intel-openmp=2021.4.0=h06a4308_3561
+  - kaleido-core=0.2.1=h3644ca4_0
   - ld_impl_linux-64=2.35.1=h7274673_9
   - libffi=3.3=he6710b0_2
   - libgcc-ng=9.3.0=h5101ec6_17
   - libgfortran-ng=7.5.0=ha8ba4b0_17
   - libgfortran4=7.5.0=ha8ba4b0_17
   - libgomp=9.3.0=h5101ec6_17
+  - libiconv=1.16=h516909a_0
+  - libpng=1.6.37=h21135ba_2
   - libstdcxx-ng=9.3.0=hd4cf53a_17
+  - libuuid=1.0.3=h7f8727e_2
+  - libxml2=2.9.10=h68273f3_2
+  - mathjax=2.7.7=0
   - mkl=2021.4.0=h06a4308_640
   - mkl-service=2.4.0=py39h7f8727e_0
   - mkl_fft=1.3.1=py39hd3c417c_0
   - mkl_random=1.2.2=py39h51133e4_0
   - ncurses=6.3=h7f8727e_2
+  - nspr=4.33=h295c915_0
+  - nss=3.74=h0370c37_0
   - numexpr=2.8.1=py39h6abb31d_0
   - numpy=1.21.2=py39h20f2e39_0
   - numpy-base=1.21.2=py39h79a1101_0
@@ -32,6 +50,8 @@ dependencies:
   - pyparsing=3.0.4=pyhd3eb1b0_0
   - python=3.9.11=h12debd9_2
   - python-dateutil=2.8.2=pyhd3eb1b0_0
+  - python-kaleido=0.2.1=pyhd8ed1ab_0
+  - python_abi=3.9=2_cp39
   - pytz=2021.3=pyhd3eb1b0_0
   - readline=8.1.2=h7f8727e_1
   - scipy=1.7.3=py39hc147768_0
@@ -44,3 +64,4 @@ dependencies:
   - wheel=0.37.1=pyhd3eb1b0_0
   - xz=5.2.5=h7b6447c_0
   - zlib=1.2.11=h7f8727e_4
+prefix: /home/novss/anaconda3/envs/mobvis
