@@ -1,4 +1,4 @@
-<img src="images/logo_full.png" width=403.16 height=80 />
+<img src="images/full_logo.svg" width=403.16 height=80 />
 
 <div align="justify">
 MobVis is an open source Python library for perform analysis about mobility data in a simple way.
@@ -66,7 +66,7 @@ Colocar aqui link para site de documentação oficial da biblioteca hospedado em
 
 ## :keyboard: Examples
 
-# Mob<span style="color: red;">Vis</span>
+# <img src="images/small_logo.svg" width=60 height=60 /> MobVis
 ## Use case example
 
 ### 1. Importing the modules:
