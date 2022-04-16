@@ -1,3 +1,4 @@
+from distutils.log import warn
 import pandas as pd
 import numpy as np
 from scipy import stats
@@ -91,11 +92,21 @@ def freedman_diaconis(data, returnas="width"):
     bw   = (2 * IQR) / np.power(N, 1/3)
 
     if returnas=="width":
-        result = bw
+        if bw > 0:
+            result = bw
+        else:
+            result = None
     else:
         datmin, datmax = data.min(), data.max()
         datrng = datmax - datmin
-        result = int((datrng / bw) + 1)
+        try:
+            result = int((datrng / bw) + 1)
+        except OverflowError:
+            warn("WARNING: OverflowError while trying to calculate the number of bins, check locations parameters...")
+
+            result = 2
+
+    print(result)
 
     return(result)
 
