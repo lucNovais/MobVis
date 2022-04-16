@@ -1,4 +1,3 @@
-from email import header
 import pandas as pd
 
 from abc import abstractclassmethod, ABCMeta
@@ -13,8 +12,4 @@ class IMetric(metaclass=ABCMeta):
 
     @abstractclassmethod
     def extract(self):
-        pass
-
-    @abstractclassmethod
-    def export(self):
         pass

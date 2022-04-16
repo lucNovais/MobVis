@@ -12,6 +12,8 @@ class VisitTime(IMetric):
         `trace_loc` (pandas.DataFrame): Geo-locations DataFrame of the trace. Extracted by the mobvis.metrics.utils.Locations module.
         """
 
+        self.name = 'VIST'
+
         self.trace_loc = trace_loc
 
     @Timer.timed
@@ -21,10 +23,10 @@ class VisitTime(IMetric):
         Returns:
 
         `vist_df` (pandas.DataFrame): DataFrame containing the Visit Time data as shown below:
-            id: Node identifier
-            timestamp: Timestamp where the node arrived at the Geo-location
-            sl: Geo-location visited by the node
-            visit_time: Time spent on that specific Geo-location
+            - id: Node identifier
+            - timestamp: Timestamp where the node arrived at the Geo-location
+            - sl: Geo-location visited by the node
+            - visit_time: Time spent on that specific Geo-location
         """
 
         print('Extracting the Visit Time...')
@@ -63,8 +65,3 @@ class VisitTime(IMetric):
         print('Visit Time extracted successfully!\n')
 
         return vist_df
-
-    def export(self):
-        """Method that exports the extracted metric to a specific format file.
-        """
-        pass

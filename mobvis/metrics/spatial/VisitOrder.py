@@ -12,6 +12,8 @@ class VisitOrder(IMetric):
         `trace_loc` (pandas.DataFrame): Geo-locations DataFrame of the trace. Extracted by the mobvis.metrics.utils.Locations module.
         """
 
+        self.name = 'VISO'
+
         self.trace_loc = trace_loc
         self.initial_id = int(self.trace_loc.id[0])
 
@@ -22,6 +24,12 @@ class VisitOrder(IMetric):
         Returns:
 
         `viso_df` (pandas.DataFrame): DataFrame containing the Visit Order data as shown below:
+            - id: Node identifier
+            - x: x position where the node entered the Geo-location
+            - y: y position where the node entered the Geo-location
+            - sl: Geo-location identifier
+            - visit_order: Integer that corresponds to the order of the visited Geo-location
+            - timestamp: Timestamp where the node entered the Geo-location
             
         """
         print('\nExtracting the Visit Order...')
@@ -51,6 +59,3 @@ class VisitOrder(IMetric):
         print('Visit Order extracted successfully!')
 
         return viso_df
-
-    def export(self):
-        pass

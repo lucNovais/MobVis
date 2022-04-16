@@ -6,7 +6,7 @@ from scipy import stats
 from math import radians, cos, sin, asin, sqrt
 
 
-def fix_size_conditions(original_size, initial_id, df, limit, max_points, user_ids):
+def fix_size_conditions(original_size, initial_id, df, limit, users_to_display, specific_users):
     """Function for filtering the trace to the specified or default conditions.
 
     Parameters:
@@ -15,33 +15,35 @@ def fix_size_conditions(original_size, initial_id, df, limit, max_points, user_i
     `initial_id` (int): First node identifier value of the trace.
     `df` (pandas.DataFrame): Original trace.
     `limit` (int): Limit of nodes to be displayed on the image.
-    `max_points` (int): Number of users that will appear on the plot.
-    `user_ids` (int[]): List of specific users to be plotted.
+    `users_to_display` (int): Number of users that will appear on the plot.
+    `specific_users` (int[]): List of specific users to be plotted.
 
     Returns:
 
-    `df` (pandas.DataFrame): Filtered DataFrame. 
+    `df` (pandas.DataFrame): Fixed DataFrame. 
     """
 
-    if not max_points and not user_ids and original_size > limit:
+    if not users_to_display and not specific_users and original_size > limit:
         df = filter_df(df, min_index=initial_id, max_index=initial_id + limit)
     elif original_size < limit:
         df = filter_df(df, min_index=initial_id, max_index=initial_id + original_size)
-    elif max_points:
-        df = filter_df(df, min_index=initial_id, max_index=initial_id + max_points)
+    elif users_to_display:
+        df = filter_df(df, min_index=initial_id, max_index=initial_id + users_to_display)
     else:
-        df = filter_df(df, uids_list=user_ids)
+        df = filter_df(df, ids_list=specific_users)
 
     return df
 
-def filter_df(full_df, min_index=None, max_index=None, uids_list=None):
+def filter_df(full_df, min_index=None, max_index=None, ids_list=None):
+    """Removes all the nodes that should not appear on the fixed DataFrame.
+    """
     df = pd.DataFrame()
 
-    if not uids_list:
+    if not ids_list:
         for i in range(int(min_index), int(max_index)):
             df = pd.concat([df, full_df.loc[full_df.id == i]], ignore_index=True)
     else:
-        for i in uids_list:
+        for i in ids_list:
             df = pd.concat([df, full_df.loc[full_df.id == i]], ignore_index=True)
 
     return df

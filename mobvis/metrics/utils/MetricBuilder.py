@@ -15,7 +15,7 @@ class MetricBuilder:
         Parameters:
 
         `metric` (str): String that corresponds to the metric.
-        `kwargs`: Specific parameters that vary by metric. Specific parameters that vary by metric. See individual docstrings for more details.
+        `kwargs`: Specific parameters that vary by metric. See individual docstrings for more details.
 
             - Travel Distance (TRVD): trace_loc, dist_type
             - Radius of Gyration (RADG): trace, trace_loc, sl_centers, homes, dist_type

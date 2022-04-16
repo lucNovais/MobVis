@@ -21,14 +21,14 @@ class RadiusOfGyration(IMetric):
         `dist_type` (str): Distance formula. Supported types are: Haversine and Euclidean.
         """
 
+        self.name = 'RADG'
+
         self.trace = trace
         self.trace_loc = trace_loc
         self.sl_centers = sl_centers
         self.homes = homes
         self.dist_type = dist_type
 
-        
-    # Decorator for timing the extraction of this metric
     @Timer.timed
     def extract(self):
         """Method that extracts the Radius of Gyration metric.
@@ -36,9 +36,9 @@ class RadiusOfGyration(IMetric):
         Returns:
 
         `radg_df` (pandas.DataFrame): DataFrame containing the Radius of Gyration data as shown below:
-            id: Node identifier
-            home_location: Home location of the node
-            radius_of_gyration: Radius of Gyration of that specific node
+            - id: Node identifier
+            - home_location: Home location of the node
+            - radius_of_gyration: Radius of Gyration of that specific node
         """
         print('\nExtracting the Radius of Gyration...')
         
@@ -94,6 +94,3 @@ class RadiusOfGyration(IMetric):
         radg = sqrt(radg)
         
         return radg
-
-    def export(self):
-        pass

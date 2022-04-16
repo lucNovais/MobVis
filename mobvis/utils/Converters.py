@@ -1,5 +1,4 @@
 import pandas as pd
-from dateutil.parser import parse
 
 def convert_datetime(trace, date_column):
     """Converts any datetime format to timestamps in seconds. The first datetime will be considered as the 0 time.
@@ -29,19 +28,3 @@ def convert_datetime(trace, date_column):
     trace[date_column] = new_timestamps
     
     return trace
-
-
-# def filter_datetime(df):
-#     ts = []
-#     yr = pd.to_datetime(df.timestamp.values).year
-#     mnth = pd.to_datetime(df.timestamp.values).month
-#     day = pd.to_datetime(df.timestamp.values).day
-#     hr = pd.to_datetime(df.timestamp.values).hour
-#     mnt = pd.to_datetime(df.timestamp.values).minute
-#     sec = pd.to_datetime(df.timestamp.values).second
-    
-#     for years, months, days, hours, minutes, seconds in zip(yr, mnth, day, hr, mnt, sec):
-#         aux = '{:02d}'.format(years) + '-{:02d}'.format(months) + '-{:02d}'.format(days) + ' {:02d}'.format(hours) + ':{:02d}'.format(minutes) + ':{:02d}'.format(seconds)
-#         ts.append(aux)
-
-#     return ts

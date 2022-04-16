@@ -9,6 +9,8 @@ from scipy.spatial import distance
 pd.set_option('display.precision', 10)
 
 class Contacts:
+    """Contains the methods for finding the contacts between the trace nodes.
+    """
     def __init__(self):
         pass
 
@@ -68,6 +70,12 @@ class Contacts:
         Returns:
 
         `contacts` (pandas.DataFrame): DataFrame containing all the contacts of the trace.
+            - id1: First node identifier
+            - id2: Second node identifier
+            - x1: x coordinate of the first node
+            - y1: y coordinate of the first node
+            - x2: x coordinate of the second node
+            - y2: y coordinate of the second node
         """
 
         print('Detecting the contacts between the nodes...')

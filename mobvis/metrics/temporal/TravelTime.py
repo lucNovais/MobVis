@@ -12,6 +12,8 @@ class TravelTime(IMetric):
         `trace_loc` (pandas.DataFrame): Geo-locations DataFrame of the trace. Extracted by the mobvis.metrics.utils.Locations module.
         """
 
+        self.name = 'TRVT'
+
         self.trace_loc = trace_loc
 
     @Timer.timed
@@ -21,12 +23,12 @@ class TravelTime(IMetric):
         Returns:
 
         `trvt_df` (pandas.DataFrame): DataFrame containing the Travel Time data as shown below:
-            id: Node identifier
-            init_sl: Initial Geo-location where the node was
-            final_sl: Final Geo-location of the travel
-            t_exit: Timestamp when the node left the initial Geo-location
-            t_arrival: Timestamp when the node arrived the final Geo-location
-            travel_time: Time spent on the travel
+            - id: Node identifier
+            - init_sl: Initial Geo-location where the node was
+            - final_sl: Final Geo-location of the travel
+            - t_exit: Timestamp when the node left the initial Geo-location
+            - t_arrival: Timestamp when the node arrived the final Geo-location
+            - travel_time: Time spent on the travel
         """
         print('\nExtracting the Travel Time...')
 
@@ -57,8 +59,3 @@ class TravelTime(IMetric):
         print('Travel Distance extracted successfully!\n')
 
         return trvt_df
-
-    def export(self):
-        """Method that exports the extracted metric to a specific format file.
-        """
-        pass

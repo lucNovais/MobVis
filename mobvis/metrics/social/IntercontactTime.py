@@ -12,6 +12,8 @@ class IntercontactTime(IMetric):
         `contacts_df` (pandas.DataFrame): Contacts between the trace nodes. Extracted by the mobvis.metrics.utils.Contacts module.
         """
 
+        self.name = 'INCO'
+
         self.contacts_df = contacts_df
 
 
@@ -22,9 +24,9 @@ class IntercontactTime(IMetric):
         Returns:
 
         `inco_df` (pandas.DataFrame): DataFrame containing the Intercontact Time data as shown below:
-            id1: Identifier of the first node
-            id2: Identifier of the second node
-            timestamp: Intercontact time of the two nodes
+            - id1: Identifier of the first node
+            - id2: Identifier of the second node
+            - intercontact_time: Intercontact time of the two nodes
         """
         print('\nExtracting the Inter-contact Time...')
 
@@ -50,8 +52,3 @@ class IntercontactTime(IMetric):
             
         print('\nInter-contact Time extracted successfully!')
         return inco_df
-
-    def export(self):
-        """Method that exports the extracted metric to a specific format file.
-        """
-        pass

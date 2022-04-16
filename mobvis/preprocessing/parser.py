@@ -1,4 +1,3 @@
-from tkinter.tix import COLUMN
 import pandas as pd
 
 from mobvis.utils import Timer
@@ -40,15 +39,19 @@ class Parser:
         return std_trace
 
     def check_columns(raw_trace):
-        """Detects the columns informed for the raw trace and performs the procedures to convert
-           them to the standard MobVis format.
+        """Detects the columns of the raw trace and performs the procedures to convert
+           them (if needed) to the standard MobVis format.
         """
         print('Checking the raw trace columns...')
+
+        if not all(isinstance(column, str) for column in raw_trace.columns):
+            raise AttributeError("Raw trace must have the column names defined previously! Try reading the file by setting the 'names' list on pandas.read_csv().")
+
         default_order = ['id', 'timestamp', 'x', 'y']
 
         if len(raw_trace.columns) < 4:
             # If the trace has less than the 4 mandatory columns, raise a error to the user.
-            raise ValueError('Raw trace must have at least 4 columns, containing.the following information: Timestamp, Identifier, Coordinates')
+            raise ValueError('Raw trace must have at least 4 columns, containing the following informations: Timestamp, Identifier, Coordinates')
         elif len(raw_trace.columns) > 4:
             # If the trace has more than the 4 mandatory columns, filter and select only the mandatory ones.
             COLUMNS_FILTER = constants.SUPPORTED_TIMESTAMPS + constants.SUPPORTED_COORDINATES + constants.SUPPORTED_IDENTIFIERS
@@ -57,13 +60,16 @@ class Parser:
 
             raw_trace = raw_trace[raw_trace.columns.intersection(COLUMNS_FILTER)]
 
+            if len(raw_trace.columns < 4):
+                raise ValueError('Raw trace must have at least 4 columns, containing the following informations: Timestamp, Identifier, Coordinates')
+
         # Check if the timestamps column in the raw trace are on the datetime format, and consider some
         # possible names on the SUPPORTED_TIMESTAMPS array (case insensitive).
         raw_timestamp = [item for item in raw_trace.columns if item.lower() in constants.SUPPORTED_TIMESTAMPS]
         if raw_timestamp:
             raw_timestamp = raw_timestamp[0]
             if type(raw_trace[raw_timestamp][0]) == str:
-                # Check if the timestamp column are a datetime string, then convert it to the datetime format
+                # Check if the timestamp column are a datetime string, then convert it to the timestamps in seconds format
                 raw_trace = Converters.convert_datetime(raw_trace, raw_timestamp)
             raw_trace.rename(columns={raw_timestamp: 'timestamp'}, inplace=True)
 
