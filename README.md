@@ -934,9 +934,10 @@ fig = plot_trace(
     
     Successfully generated plot!
     
-
+<img src="images/plots/movements.png" width=740 height=560 />
 
 ```python
+
 # On this plot, the nodes to be shown are specified by the `nodes_list` parameter
 fig = plot_trace3d(trace=trace, specific_users=[4, 5, 6], show_y_label=False)
 ```
@@ -944,22 +945,21 @@ fig = plot_trace3d(trace=trace, specific_users=[4, 5, 6], show_y_label=False)
     
     Successfully generated plot!
     
-
+<img src="images/plots/movements3d.png" width=740 height=560 />
 
 ```python
 # This graph is showing the density of all the movements of 50 of the 100 nodes on the trace
 fig = plot_density(trace=trace, users_to_display=50)
 ```
 
+<img src="images/plots/density.png" width=600 height=560 />
 
 ```python
 # Geo-locations visited by the 1º node in order
 fig = plot_visit_order(trace_viso=trace_viso, users_to_display=1)
 ```
 
-    
-    Generating the Visit Order plot...
-    
+<img src="images/plots/viso.png" width=600 height=560 />    
 
 #### Metrics Plots:
 
@@ -981,8 +981,7 @@ fig = plot_metric_histogram(
     
     Elapsed time: 4.03615665435791 seconds.
     
-    
-
+<img src="images/plots/trvd_hist.png" width=600 height=560 />
 
 ```python
 fig = boxplot_metric(
@@ -1000,8 +999,7 @@ fig = boxplot_metric(
     
     Elapsed time: 0.052931785583496094 seconds.
     
-    
-
+<img src="images/plots/radg_dist.png" width=600 height=560 />
 
 ```python
 fig = plot_metric_dist(
@@ -1018,6 +1016,8 @@ fig = plot_metric_dist(
     Successfully generated distplot!
     
 
+<img src="images/plots/trvd_dist.png" width=600 height=560 />
+
 ### 7. Exporting the data:
 
 
@@ -1033,20 +1033,7 @@ export_dataframe(df=trace_trvd, path='travel_distance.txt')
 
 
 ```python
-# export_figure(figure=fig, path='distplot.png')
-```
-
-
-```python
-
-```
-
-
-### 7. Exporting the data:
-
-
-```python
-
+export_figure(figure=fig, path='distplot.png')
 ```
 
 ## :newspaper: Citing
