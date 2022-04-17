@@ -19,7 +19,9 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
 
 ## :book: Documentation
 
-Colocar aqui link para site de documentação oficial da biblioteca hospedado em algum servidor do github.io
+<p>
+  The MobVis docs page is still under development. Until then, use this README and the docstrings in the source code to get your bearings.
+</p>
 
 ## :computer: Installation
 
@@ -1039,7 +1041,7 @@ export_figure(figure=fig, path='distplot.png')
 ## :newspaper: Citing
 
 <p>
-   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  The quotes for this project are yet to come ;)
 </p>
 
 ## :envelope: Collaborators
