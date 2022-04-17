@@ -73,16 +73,23 @@ Colocar aqui link para site de documentação oficial da biblioteca hospedado em
 
 
 ```python
-import pandas as pd # Pandas is used to read the files from the computer
+# Pandas is used to read the files from the computer
+import pandas as pd
 
-from mobvis.preprocessing.parser import Parser as par # The Parser module is used to convert the raw data to a standard format
+# The Parser module is used to convert the raw data to a standard format
+from mobvis.preprocessing.parser import Parser as par
 
-from mobvis.metrics.utils.Locations import Locations as loc # The Locations module is used to find the Geo-locations of the trace, used by almost all metrics
-from mobvis.metrics.utils.HomeLocations import HomeLocations as hloc # The HomeLocations module is used to find the Home-locations of the trace, used by some metrics
-from mobvis.metrics.utils.Contacts import Contacts as cnt # The Contacts module is used to detect the Contacts between the nodes, used by Social metrics
+# The Locations module is used to find the Geo-locations of the trace, used by almost all metrics
+from mobvis.metrics.utils.Locations import Locations as loc
+# The HomeLocations module is used to find the Home-locations of the trace, used by some metrics
+from mobvis.metrics.utils.HomeLocations import HomeLocations as hloc
+# The Contacts module is used to detect the Contacts between the nodes, used by Social metrics
+from mobvis.metrics.utils.Contacts import Contacts as cnt
 
-from mobvis.metrics.utils.MetricBuilder import MetricBuilder as mb # The MetricBuilder module is used to instantiate the metrics 
+# The MetricBuilder module can be used to instantiate all the metrics 
+from mobvis.metrics.utils.MetricBuilder import MetricBuilder as mb
 
+# The metric and spatial plotters contains all the visualizations of MobVis
 from mobvis.plots.metric_plotter import *
 from mobvis.plots.spatial_plotter import *
 ```
@@ -91,7 +98,7 @@ from mobvis.plots.spatial_plotter import *
 
 
 ```python
-trace = pd.read_csv('swim_siot_private.csv', header=None, delimiter=',')
+trace = pd.read_csv('swim_siot_private.csv', names=['timestamp', 'id', 'x', 'y'], delimiter=',')
 
 trace.head()
 ```
@@ -100,14 +107,27 @@ trace.head()
 
 
 <div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>0</th>
-      <th>1</th>
-      <th>2</th>
-      <th>3</th>
+      <th>timestamp</th>
+      <th>id</th>
+      <th>x</th>
+      <th>y</th>
     </tr>
   </thead>
   <tbody>
@@ -156,12 +176,13 @@ trace.head()
 
 
 ```python
-parsed_trace = par.parse(raw_trace=trace, raw_trace_cols=['timestamp', 'id', 'x', 'y'], is_ordered=True) # See the `parse` method docstring for more information
+parsed_trace = par.parse(raw_trace=trace, is_ordered=True) # See the `parse` method docstring for more information
 
 parsed_trace.head()
 ```
 
     Parsing the given DataFrame...
+    Checking the raw trace columns...
     Fixing the timestamps...
     Shorter timestamp: 1728110.0
     Timestamps fixed!
@@ -183,13 +204,27 @@ parsed_trace.head()
     
     [13884 rows x 4 columns]
     
-    Elapsed time: 0.3963136672973633 seconds.
+    Elapsed time: 0.3478250503540039 seconds.
     
     
 
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -273,13 +308,27 @@ trace_loc.head()
     [13884 rows x 7 columns]
     Locations found!
     
-    Elapsed time: 4.78704571723938 seconds.
+    Elapsed time: 4.299750328063965 seconds.
     
     
 
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -360,13 +409,27 @@ trace_homes.head()
     Finding the Home Locations...
     Home locations found!
     
-    Elapsed time: 0.7251911163330078 seconds.
+    Elapsed time: 0.6084480285644531 seconds.
     
     
 
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -440,13 +503,27 @@ trace_contacts.head()
     4  4.0  46.0    0.43473   0.569507   0.423977  0.661822  258830.0
     Number of contacts: 53
     
-    Elapsed time: 12.442972660064697 seconds.
+    Elapsed time: 11.39995265007019 seconds.
     
     
 
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -534,39 +611,39 @@ trace_inco = mb.build_metric('INCO', contacts_df=trace_contacts).extract()
     Travel Distance extracted successfully!
     
     
-    Elapsed time: 6.116483211517334 seconds.
+    Elapsed time: 5.559073209762573 seconds.
     
     
     Extracting the Radius of Gyration...
     Radius of Gyration extracted successfully!
     
-    Elapsed time: 0.8501918315887451 seconds.
+    Elapsed time: 0.7478008270263672 seconds.
     
     
     Extracting the Visit Order...
     Visit Order extracted successfully!
     
-    Elapsed time: 1.3492846488952637 seconds.
+    Elapsed time: 1.1690409183502197 seconds.
     
     Extracting the Visit Time...
     Visit Time extracted successfully!
     
     
-    Elapsed time: 4.978647947311401 seconds.
+    Elapsed time: 4.305334806442261 seconds.
     
     
     Extracting the Travel Time...
     Travel Distance extracted successfully!
     
     
-    Elapsed time: 4.073116064071655 seconds.
+    Elapsed time: 3.552776575088501 seconds.
     
     
     Extracting the Inter-contact Time...
     
     Inter-contact Time extracted successfully!
     
-    Elapsed time: 0.005001068115234375 seconds.
+    Elapsed time: 0.006001710891723633 seconds.
     
     
 
@@ -580,6 +657,20 @@ trace_trvd.head()
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -664,6 +755,20 @@ trace_radg.head()
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -718,6 +823,20 @@ trace_trvt.head()
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -790,6 +909,20 @@ trace_inco.head()
 
 
 
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -830,61 +963,214 @@ trace_inco.head()
 
 
 
+
+```python
+trace_viso.head()
+```
+
+
+
+
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>id</th>
+      <th>x</th>
+      <th>y</th>
+      <th>sl</th>
+      <th>visit_order</th>
+      <th>timestamp</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>1</td>
+      <td>0.0249873</td>
+      <td>0.651852</td>
+      <td>0</td>
+      <td>1.0</td>
+      <td>160040.0</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>1</td>
+      <td>0.0676107</td>
+      <td>0.699221</td>
+      <td>1</td>
+      <td>2.0</td>
+      <td>195730.0</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>1</td>
+      <td>0.203424</td>
+      <td>0.463691</td>
+      <td>2</td>
+      <td>2.0</td>
+      <td>378860.0</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>1</td>
+      <td>0.0592504</td>
+      <td>0.652404</td>
+      <td>3</td>
+      <td>3.0</td>
+      <td>378980.0</td>
+    </tr>
+    <tr>
+      <th>8</th>
+      <td>1</td>
+      <td>0.280775</td>
+      <td>0.938994</td>
+      <td>4</td>
+      <td>4.0</td>
+      <td>383110.0</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+
+
 ### 6. Visualizing the data:
 
 #### Trace Plots:
 
 
 ```python
-# Note: To see the interactive version of the plots, visit our docs page
+fig = plot_trace(
+    trace=parsed_trace,
+    users_to_display=10
+)
+```
 
-plot_trace(trace=trace, initial_id=1, number_of_nodes=5, show_y_label=False)
+    
+    Successfully generated plot!
+    
+
+
+```python
+# On this plot, the nodes to be shown are specified by the `nodes_list` parameter
+fig = plot_trace3d(trace=trace, specific_users=[4, 5, 6], show_y_label=False)
+```
+
+    
+    Successfully generated plot!
+    
+
+
+```python
+# This graph is showing the density of all the movements of 50 of the 100 nodes on the trace
+fig = plot_density(trace=trace, users_to_display=50)
 ```
 
 
 ```python
-plot_trace3d(trace=trace, initial_id=1, nodes_list=[4, 5, 6], show_y_label=False) # On this plot, the nodes to be shown are specified by the `nodes_list` parameter
+# Geo-locations visited by the 1º node in order
+fig = plot_visit_order(trace_viso=trace_viso, users_to_display=1)
 ```
 
-
-```python
-plot_density(trace=trace, initial_id=1, number_of_nodes=50) # This graph is showing the density of all the movements of 50 of the 100 nodes on the trace
-```
-
-
-```python
-# TODO: FIX NODES_LIST BUG ON THIS PLOT
-
-plot_visit_order(trace_viso=trace_viso, initial_id=1, number_of_nodes=1) # Geo-locations visited by the 1º node in order
-```
+    
+    Generating the Visit Order plot...
+    
 
 #### Metrics Plots:
 
 
 ```python
-plot_metric_histogram(
+fig = plot_metric_histogram(
     trace_trvd,
-    initial_id=1,
-    metric_type='TRVD',
+    metric_name='TRVD',
+    differ_nodes=False,
+    show_title=True,
+    show_y_label=True,
+    nbins=40
+)
+```
+
+    Generating the TRVD histogram...
+    
+    Successfully generated histogram!
+    
+    Elapsed time: 4.03615665435791 seconds.
+    
+    
+
+
+```python
+fig = boxplot_metric(
+    trace_radg,
+    metric_name='RADG',
     differ_nodes=False,
     show_title=False,
-    show_y_label=True,
-    max_users=100
+    show_y_label=True
 )
+```
+
+    Generating the RADG boxplot...
+    
+    Successfully generated boxplot!
+    
+    Elapsed time: 0.052931785583496094 seconds.
+    
+    
+
+
+```python
+fig = plot_metric_dist(
+    metric_df=trace_trvd,
+    metric_name='TRVD',
+    show_title=False,
+    show_y_label=True
+)
+```
+
+    Generating the TRVD distplot...
+    0.02725285371828199
+    
+    Successfully generated distplot!
+    
+
+### 7. Exporting the data:
+
+
+```python
+from mobvis.utils.Exports import export_dataframe
+from mobvis.utils.Exports import export_figure
 ```
 
 
 ```python
-plot_metric_histogram(
-    trace_radg,
-    initial_id=1,
-    metric_type='RADG',
-    differ_nodes=False,
-    show_title=False,
-    show_y_label=True,
-    max_users=100
-)
+export_dataframe(df=trace_trvd, path='travel_distance.txt')
 ```
+
+
+```python
+# export_figure(figure=fig, path='distplot.png')
+```
+
+
+```python
+
+```
+
 
 ### 7. Exporting the data:
 

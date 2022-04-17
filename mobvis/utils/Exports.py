@@ -3,7 +3,7 @@ from distutils.log import warn
 def export_dataframe(df, path):
     """Exports a DataFrame object to a specified format on a given path.
 
-    Parameters:
+    ### Parameters:
 
     `df` (pandas.DataFrame): DataFrame of the object to be exported.
     `path` (str): Path (with filename and extention) where the file should be saved.
@@ -23,7 +23,7 @@ def export_dataframe(df, path):
 def export_figure(figure, path):
     """Exports a Plotly Figure object to a specified format image.
 
-    Parameters:
+    ### Parameters:
 
     `figure` (plotly.graph_objects.Figure): Figure to be exported.
     `path` (str): Path (with filename and extention) where the figure should be saved.

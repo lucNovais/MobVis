@@ -12,7 +12,7 @@ class RadiusOfGyration(IMetric):
     def __init__(self, trace, trace_loc, sl_centers, homes, dist_type):
         """Class that corresponds to the Radius of Gyration spatial metric.
 
-        Attributes:
+        ### Attributes:
 
         `trace` (pandas.DataFrame): DataFrame corresponding to the parsed trace.
         `trace_loc` (pandas.DataFrame): Geo-locations DataFrame of the trace. Extracted by the mobvis.metrics.utils.Locations module.
@@ -33,7 +33,7 @@ class RadiusOfGyration(IMetric):
     def extract(self):
         """Method that extracts the Radius of Gyration metric.
 
-        Returns:
+        ### Returns:
 
         `radg_df` (pandas.DataFrame): DataFrame containing the Radius of Gyration data as shown below:
             - id: Node identifier

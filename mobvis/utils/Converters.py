@@ -3,12 +3,12 @@ import pandas as pd
 def convert_datetime(trace, date_column):
     """Converts any datetime format to timestamps in seconds. The first datetime will be considered as the 0 time.
 
-    Parameters:
+    ### Parameters:
 
     `trace` (pandas.DataFrame): DataFrame of the trace.
     `date_column` (str): Name of the date column on the DataFrame.
 
-    Returns:
+    ### Returns:
 
     `trace` (pandas.DataFrame): DataFrame with the datetimes converted to seconds.
     """

@@ -7,7 +7,7 @@ class VisitOrder(IMetric):
     def __init__(self, trace_loc):
         """Class that corresponds to the Visit Order spatiotemporal metric.
 
-        Attributes:
+        ### Attributes:
 
         `trace_loc` (pandas.DataFrame): Geo-locations DataFrame of the trace. Extracted by the mobvis.metrics.utils.Locations module.
         """
@@ -21,7 +21,7 @@ class VisitOrder(IMetric):
     def extract(self):
         """Method that extracts the Visit Order metric.
 
-        Returns:
+        ### Returns:
 
         `viso_df` (pandas.DataFrame): DataFrame containing the Visit Order data as shown below:
             - id: Node identifier

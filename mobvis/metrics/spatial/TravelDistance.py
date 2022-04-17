@@ -14,7 +14,7 @@ class TravelDistance(IMetric):
     def __init__(self, trace_loc, dist_type):
         """Class that corresponds to the Travel Distance spatial metric.
 
-        Attributes:
+        ### Attributes:
 
         `trace_loc` (pandas.DataFrame): Geo-locations DataFrame of the trace extracted by the mobvis.metrics.utils.Locations module.
         `dist_type` (str): Distance formula. Supported types are: Haversine and Euclidean.
@@ -29,7 +29,7 @@ class TravelDistance(IMetric):
     def extract(self):
         """Method that extracts the Travel Distance metric.
 
-        Returns:
+        ### Returns:
 
         `trvd_df` (pandas.DataFrame): DataFrame containing the Travel Distance data as shown below:
             - id: Node identifier

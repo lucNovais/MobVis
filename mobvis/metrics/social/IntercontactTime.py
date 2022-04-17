@@ -7,7 +7,7 @@ class IntercontactTime(IMetric):
     def __init__(self, contacts_df):
         """Class that corresponds to the Inter-contact Time social metric.
 
-        Attributes:
+        ### Attributes:
 
         `contacts_df` (pandas.DataFrame): Contacts between the trace nodes. Extracted by the mobvis.metrics.utils.Contacts module.
         """
@@ -21,7 +21,7 @@ class IntercontactTime(IMetric):
     def extract(self):
         """Method that extracts the Intercontact Time metric.
 
-        Returns:
+        ### Returns:
 
         `inco_df` (pandas.DataFrame): DataFrame containing the Intercontact Time data as shown below:
             - id1: Identifier of the first node

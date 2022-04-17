@@ -1,99 +1,59 @@
-import random
-from turtle import color
-from pandas.core.algorithms import diff
 import plotly.express as px
-import plotly.graph_objects as go
 import plotly.figure_factory as ff
 
-from mobvis.utils import Converters
 from mobvis.utils import Timer
 
-from mobvis.utils.Utils import fix_size_conditions
 from mobvis.utils.Utils import freedman_diaconis
-
-def config_histogram_plot(metric_type, differ_nodes):
-    if metric_type == 'TRVD':
-        x_values = 'travel_distance'
-        title_complement = 'Travel Distance'
-    elif metric_type == 'RADG':
-        x_values = 'radius_of_gyration'
-        title_complement = 'Radius of Gyration'
-    elif metric_type == 'VIST':
-        x_values = 'visit_time'
-        title_complement = 'Tempo de Visita'
-    elif metric_type == 'TRVT':
-        x_values = 'travel_time'
-        title_complement = 'Tempo de Viagem'
-    elif metric_type == 'INCO':
-        x_values = 'intercontact_time'
-        title_complement = 'Intercontact Time'
-
-    if differ_nodes:
-        cmap = 'id'
-    else:
-        cmap = None
-
-    return [x_values, cmap, title_complement]
+from mobvis.utils.Utils import fix_size_conditions
+from mobvis.utils.Utils import config_metric_plot
 
 @Timer.timed
-def plot_metric_histogram(metric_df, initial_id, metric_type, differ_nodes=False, nodes_list=None, max_users=None, num_bins=None, hnorm=None,
-                         show_title=True, show_y_label = True, img_width=600, img_height=560, title='Histogram '):
-    print(f'Generating the {metric_type} histogram...')
+def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_users=None,
+                          users_to_display=None, hnorm=None, show_title=True, show_y_label = True,
+                          img_width=600, img_height=560, title='Histogram ', **kwargs):
+    """Generates a histogram of the given metric DataFrame.
 
-    [x_values, cmap, title_complement] = config_histogram_plot(metric_type, differ_nodes)
+    ### Parameters:
 
-    if 'id' in metric_df.columns:
-        original_size = metric_df.id.size
-        plt_metric = fix_size_conditions(original_size, initial_id, metric_df, original_size, max_users, nodes_list)
-    else:
-        original_size = metric_df.id2.size
-        plt_metric = metric_df
+    `metric_df` (pandas.DataFrame): DataFrame corresponding to the extracted metric from some mobvis.metrics module.
+    `metric_name` (str): Name of the metric on the DataFrame. (Ex.: TRVD, RADG, VIST etc).
+    `differ_nodes` (bool): If each node needs to be differed on the plot.
+    `specific_users` (int[]): Specific nodes ids that the plot will use data from.
+    `users_to_display` (int): Maximum number of ids to be considered on the plot.
+    `hnorm` (str): Plotly histogram norm. See https://plotly.github.io/plotly.py-docs/generated/plotly.express.histogram.html
+    `show_title` (bool): If the graph title should appear on the image.
+    `show_y_label` (bool): If the y label should appear on the image.
+    `img_width` (float): Width of the generated image.
+    `img_height` (float): Height of the generated image.
+    `title` (str): Title of the graph.
+    `**kwargs` (dictionary): Dictionary that can contain specific Plotly arguments.
 
-    x_tick = freedman_diaconis(plt_metric[x_values].values, returnas='width')
-    num_bins = freedman_diaconis(plt_metric[x_values].values, returnas='bins')
+    ### Returns:
 
-    print(f'num_bins = {num_bins}')
+    `fig` (plotly.graph_objects.Figure): Plotly interactive histogram generated with the given data and parameters.
+    """
+    print(f'Generating the {metric_name} histogram...')
 
-    if num_bins <= 15:
-        pass
-    elif 15 < num_bins <= 25:
-        x_tick = x_tick * 1.8
-        print(f'XTICK {x_tick}')
-    elif 25 < num_bins <= 40:
-        x_tick = x_tick * 3.2
-    elif 40 < num_bins <= 80:
-        x_tick = x_tick * 4
-        num_bins = int(num_bins / 1.2)
-    elif 80 < num_bins <= 120:
-        x_tick = x_tick * 5.6
-        num_bins = int(num_bins / 2.5)
-    elif 120 < num_bins <= 200:
-        x_tick = int(x_tick * 10)
-        num_bins = int(num_bins / 4.5)
-    elif 200 < num_bins <= 260:
-        x_tick = int(x_tick * 26)
-        num_bins = int(num_bins / 7)
-    elif 260 < num_bins <= 460:
-        x_tick = int(x_tick * 40)
-        num_bins = int(num_bins / 7)
-    elif 460 < num_bins <= 900:
-        x_tick = int(x_tick * 100)
-        num_bins = int(num_bins / 15)
-    else:
-        x_tick = int(x_tick * 122)
-        num_bins = int(num_bins / 30)
+    [x_values, cmap, title_complement] = config_metric_plot(metric_name, differ_nodes)
+
+    plt_metric = fix_size_conditions(
+        df=metric_df,
+        limit=None,
+        users_to_display=users_to_display,
+        specific_users=specific_users
+    )
 
     fig = px.histogram(
         plt_metric,
         x=x_values,
         color=cmap,
         color_discrete_sequence=px.colors.qualitative.Dark2,
-        nbins=num_bins,
         marginal='rug',
         histnorm=hnorm,
         labels={
             x_values: title_complement
-        }
+        },
+        **kwargs
     )
     
     if show_title:
@@ -133,11 +93,7 @@ def plot_metric_histogram(metric_df, initial_id, metric_type, differ_nodes=False
         ),
         yaxis_title=y_title,
         xaxis_title=title_complement,
-        margin=margin_dict,
-        xaxis=dict(
-            tickmode='linear',
-            dtick=x_tick
-        )
+        margin=margin_dict
     )
 
     fig.update_yaxes(
@@ -158,25 +114,46 @@ def plot_metric_histogram(metric_df, initial_id, metric_type, differ_nodes=False
                 x=-0.34
         ))
 
-    print('\nSuccessfully generated plot!')
+    print('\nSuccessfully generated histogram!')
 
     return fig
 
 
 @Timer.timed
-def boxplot_metric(metric_df, initial_id, metric_type, differ_nodes=False, nodes_list=None, max_users=None, num_bins=None, hnorm=None,
-                  show_title=True, show_y_label = True, img_width=600, img_height=560, title='BoxPlot '):
-    print(f'Generating the {metric_type} boxplot...')
+def boxplot_metric(metric_df, metric_name, differ_nodes=False, specific_users=None,
+                   users_to_display=None, show_title=True, show_y_label = True,
+                   img_width=600, img_height=560, title='BoxPlot ', **kwargs):
+    """Generates a boxplot of the given metric DataFrame.
 
-    [y_values, x_values, title_complement] = config_histogram_plot(metric_type, differ_nodes)
+    ### Parameters:
 
-    if 'id' in metric_df.columns:
-        original_size = metric_df.id.size
-        plt_metric = fix_size_conditions(original_size, initial_id, metric_df, original_size, max_users, nodes_list)
-    else:
-        original_size = metric_df.id2.size
-        plt_metric = metric_df
-    
+    `metric_df` (pandas.DataFrame): DataFrame corresponding to the extracted metric from some mobvis.metrics module.
+    `metric_name` (str): Name of the metric on the DataFrame. (Ex.: TRVD, RADG, VIST etc).
+    `differ_nodes` (bool): If each node needs to be differed on the plot.
+    `specific_users` (int[]): Specific nodes ids that the plot will use data from.
+    `users_to_display` (int): Maximum number of ids to be considered on the plot.
+    `hnorm` (str): Plotly histogram norm. See https://plotly.github.io/plotly.py-docs/generated/plotly.express.histogram.html
+    `show_title` (bool): If the graph title should appear on the image.
+    `show_y_label` (bool): If the y label should appear on the image.
+    `img_width` (float): Width of the generated image.
+    `img_height` (float): Height of the generated image.
+    `title` (str): Title of the graph.
+    `**kwargs` (dictionary): Dictionary that can contain specific Plotly arguments.
+
+    ### Returns:
+
+    `fig` (plotly.graph_objects.Figure): Plotly interactive boxplot generated with the given data and parameters.
+    """
+    print(f'Generating the {metric_name} boxplot...')
+
+    [y_values, x_values, title_complement] = config_metric_plot(metric_name, differ_nodes)
+
+    plt_metric = fix_size_conditions(
+        df=metric_df,
+        limit=None,
+        users_to_display=users_to_display,
+        specific_users=specific_users
+    )
 
     fig = px.box(
         plt_metric,
@@ -187,7 +164,8 @@ def boxplot_metric(metric_df, initial_id, metric_type, differ_nodes=False, nodes
         points='all',
         labels={
             'id': 'Node ID',
-        }
+        },
+        **kwargs
     )
 
     if show_title:
@@ -242,60 +220,62 @@ def boxplot_metric(metric_df, initial_id, metric_type, differ_nodes=False, nodes
                 x=-0.34
         ))
 
-    print('\nSuccessfully generated plot!')
+    print('\nSuccessfully generated boxplot!')
 
     return fig
 
-def plot_metric_dist(metric_df, initial_id, metric_type, differ_nodes=False, nodes_list=None, max_users=None,
-                    show_title=True, show_y_label = True, img_width=600, img_height=560, title='Distribution '):
-    [x_values, cmap, title_complement] = config_histogram_plot(metric_type, differ_nodes)
+def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=None,
+                     users_to_display=None, show_title=True, show_y_label = True,
+                     img_width=600, img_height=560, title='Distribution ', **kwargs):
+    """Generates a distplot of the given metric DataFrame.
 
-    if 'id' in metric_df.columns:
-        original_size = metric_df.id.size
-    else:
-        original_size = metric_df.id2.size
+    ### Parameters:
+
+    `metric_df` (pandas.DataFrame): DataFrame corresponding to the extracted metric from some mobvis.metrics module.
+    `metric_name` (str): Name of the metric on the DataFrame. (Ex.: TRVD, RADG, VIST etc).
+    `differ_nodes` (bool): If each node needs to be differed on the plot.
+    `specific_users` (int[]): Specific nodes ids that the plot will use data from.
+    `users_to_display` (int): Maximum number of ids to be considered on the plot.
+    `show_title` (bool): If the graph title should appear on the image.
+    `show_y_label` (bool): If the y label should appear on the image.
+    `img_width` (float): Width of the generated image.
+    `img_height` (float): Height of the generated image.
+    `title` (str): Title of the graph.
+    `**kwargs` (dictionary): Dictionary that can contain specific Plotly arguments.
+
+    ### Returns:
+
+    `fig` (plotly.graph_objects.Figure): Plotly interactive distplot generated with the given data and parameters.
+    """
+    print(f'Generating the {metric_name} distplot...')
+
+    # TODO: Check this function
+
+    [x_values, cmap, title_complement] = config_metric_plot(metric_name, differ_nodes)
 
     hist_data = []
     group_labels = []
 
-    if nodes_list:
-        for node in nodes_list:
-            data = fix_size_conditions(original_size, initial_id, metric_df, original_size, max_users, [node])
+    if specific_users:
+        for node in specific_users:
+            data = fix_size_conditions(metric_df, None, users_to_display, [node])
             hist_data.append(data[x_values].values)
             group_labels.append(f'Node {str(node)}')
     else:
         if 'id' in metric_df.columns:
-            data = fix_size_conditions(original_size, initial_id, metric_df, original_size, max_users, nodes_list)
+            data = fix_size_conditions(metric_df, None, users_to_display, specific_users)
         else:
             data = metric_df
-        hist_data = [data[x_values].values]
+        hist_data = [list(data[x_values].values)]
         group_labels = [f'{title_complement}']
-
-    x_tick = freedman_diaconis(hist_data[0], returnas='width')
-    num_bins = freedman_diaconis(hist_data[0], returnas='bins')
-
-    if num_bins <= 40:
-        pass
-    elif 40 < num_bins <= 80:
-        x_tick = int(x_tick * 2)
-    elif 80 < num_bins <= 120:
-        x_tick = int(x_tick * 4)
-    elif 120 < num_bins <= 200:
-        x_tick = int(x_tick * 9)
-    elif 200 < num_bins <= 260:
-        x_tick = int(x_tick * 11)
-    elif 260 < num_bins <= 460:
-        x_tick = int(x_tick * 14)
-    else:
-        x_tick = int(x_tick * 30)
-
 
     fig = ff.create_distplot(
         hist_data,
         group_labels,
-        bin_size=[x_tick],
+        bin_size=[freedman_diaconis(hist_data[0], returnas='width')],
         colors=['#3366CC'],
-        show_rug=False
+        show_rug=False,
+        **kwargs
     )
 
     if show_title:
@@ -356,5 +336,7 @@ def plot_metric_dist(metric_df, initial_id, metric_type, differ_nodes=False, nod
                 xanchor='left',
                 x=-0.34
         ))
+
+    print('\nSuccessfully generated distplot!')
 
     return fig

@@ -16,12 +16,12 @@ class Parser:
     def parse(cls, raw_trace, is_ordered):
         """Method that converts the given DataFrame to the MobVis standard format.
 
-        Parameters:
+        ### Parameters:
 
         `raw_trace` (pandas.DataFrame): Raw DataFrame containing the original trace.
         `is_ordered` (bool): 'True' if the rows of the raw DataFrame are ordered by the id and timestamps, `False` otherwise.
 
-        Returns:
+        ### Returns:
 
         `std_trace` (pandas.DataFrame): DataFrame corresponding to the parsed trace.
         """
