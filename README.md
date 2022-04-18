@@ -11,8 +11,8 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
 
 1. [ Documentation ](#book-documentation) 
 2. [ Installation ](#computer-installation)
-   1. [ conda installation ](#conda-installation)
-   2. [ pip installation ](#pip-installation)
+   1. [ Windows installation ](#windows-installation)
+   2. [ Linux installation ](#linux-installation)
 3. [ Examples ](#keyboard-examples)
 4. [ Citing ](#newspaper-citing)
 5. [ Collaborators ](#envelope-collaborators)
@@ -33,7 +33,40 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
   <li>pip 21.4
 </ul>
 
-### Steps:
+### Windows Installation:
+
+**1.** Clone the repository
+   ```bash
+   git clone https://github.com/lucNovais/MobVis.git
+   ```
+
+**2.** Move to the repository directory
+   ```bash
+   cd MobVis
+   ```
+
+**3.** Create a `conda` environment with the `requirements.yml` file
+   ```bash
+   conda env create -f windows_requirements.yml
+   ```
+
+**4.** Activate the environment
+   ```bash
+   conda activate mobvis-windows
+   ```
+
+**5.** Install the MobVis library locally
+   ```bash
+   pip install -e .
+  ```
+
+**6.** Jupyter notebooks are recomended for running the library
+   ```bash
+   conda install jupyterlab
+   jupyter-lab
+   ```
+
+### Linux Installation:
 
 **1.** Clone the repository
    ```bash
