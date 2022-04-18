@@ -14,7 +14,7 @@ class VisitOrder(IMetric):
 
         self.name = 'VISO'
 
-        self.trace_loc = trace_loc
+        self.trace_loc = trace_loc.loc[trace_loc.gl == True]
         self.initial_id = int(self.trace_loc.id[0])
 
     @Timer.timed

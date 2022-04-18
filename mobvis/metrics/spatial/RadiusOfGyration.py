@@ -24,7 +24,7 @@ class RadiusOfGyration(IMetric):
         self.name = 'RADG'
 
         self.trace = trace
-        self.trace_loc = trace_loc
+        self.trace_loc = trace_loc.loc[trace_loc.gl == True]
         self.sl_centers = sl_centers
         self.homes = homes
         self.dist_type = dist_type

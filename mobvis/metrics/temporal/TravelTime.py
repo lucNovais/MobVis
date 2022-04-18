@@ -14,7 +14,7 @@ class TravelTime(IMetric):
 
         self.name = 'TRVT'
 
-        self.trace_loc = trace_loc
+        self.trace_loc = trace_loc.loc[trace_loc.gl == True]
 
     @Timer.timed
     def extract(self):

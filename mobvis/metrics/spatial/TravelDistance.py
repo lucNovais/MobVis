@@ -22,7 +22,7 @@ class TravelDistance(IMetric):
         
         self.name = 'TRVD'
 
-        self.trace_loc = trace_loc
+        self.trace_loc = trace_loc.loc[trace_loc.gl == True]
         self.dist_type = dist_type
 
     @Timer.timed
