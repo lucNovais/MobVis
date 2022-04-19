@@ -104,10 +104,10 @@ def config_metric_plot(metric_name, differ_nodes):
         title_complement = 'Radius of Gyration'
     elif metric_name == 'VIST':
         x_values = 'visit_time'
-        title_complement = 'Tempo de Visita'
+        title_complement = 'Visit Time'
     elif metric_name == 'TRVT':
         x_values = 'travel_time'
-        title_complement = 'Tempo de Viagem'
+        title_complement = 'Travel Time'
     elif metric_name == 'INCO':
         x_values = 'intercontact_time'
         title_complement = 'Intercontact Time'

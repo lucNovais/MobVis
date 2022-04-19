@@ -249,8 +249,6 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
     """
     print(f'Generating the {metric_name} distplot...')
 
-    # TODO: Check this function
-
     [x_values, cmap, title_complement] = config_metric_plot(metric_name, differ_nodes)
 
     hist_data = []
@@ -272,10 +270,9 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
     fig = ff.create_distplot(
         hist_data,
         group_labels,
-        bin_size=[freedman_diaconis(hist_data[0], returnas='width')],
+        bin_size=[freedman_diaconis(hist_data[0], returnas='width') * 8],
         colors=['#3366CC'],
-        show_rug=False,
-        **kwargs
+        show_rug=False
     )
 
     if show_title:
