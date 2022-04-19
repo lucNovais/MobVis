@@ -1080,3 +1080,6 @@ export_figure(figure=fig, path='distplot.png')
 ## :envelope: Collaborators
 
 [ Lucas Novais da Silva ](https://www.instagram.com/luc.novais/): <a href="mailto:lucas.novais@aluno.ufop.edu.br">lucas.novais@aluno.ufop.edu.br</a>
+[ Bruno Pereira dos Santos ](): <a href="mailto:bruno.ps@ufop.edu.br">bruno.ps@ufop.edu.br</a>
+[ Vinicius F. S. Mota ](): <a href="mailto:vinicius.mota@inf.ufes.br">vinicius.mota@inf.ufes.br</a>
+[ Paulo H. L. Rettore ](): <a href="mailto: paulo.lopes.rettore@fkie.fraunhofer.de">paulo.lopes.rettore@fkie.fraunhofer.de</a>
