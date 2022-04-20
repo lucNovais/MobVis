@@ -1,6 +1,6 @@
 <img src="images/full_logo.svg" width=403.16 height=80 />
 
-<p>Vídeo de apresentação do MobVis (Salão de Ferramentas - SBRC 2022): <a>https://youtu.be/kcVeZX8Ukj0</a></p>
+Vídeo de apresentação do MobVis (Salão de Ferramentas - SBRC 2022): [ YouTube ](https://www.youtube.com/watch?v=kcVeZX8Ukj0)
 
 <div align="justify">
 MobVis is an open source Python library for perform analysis about mobility data in a simple way.
