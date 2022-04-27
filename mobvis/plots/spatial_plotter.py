@@ -323,6 +323,7 @@ def plot_density(trace, specific_users=None, users_to_display=None, xrange=None,
         title_dict = {
             'text': title,
             'font_color': 'black',
+            'font_size': 22,
             'x': 0.5,
             'y': 0.98
         }

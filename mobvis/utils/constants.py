@@ -1,4 +1,5 @@
 SUPPORTED_TIMESTAMPS = [
+    't',
     'datetime',
     'date',
     'time',
