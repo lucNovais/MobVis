@@ -267,10 +267,16 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
         hist_data = [list(data[x_values].values)]
         group_labels = [f'{title_complement}']
 
+    try:
+        b_size = [freedman_diaconis(hist_data[0], returnas='width') * 8]
+    except TypeError:
+        print(f'WARNING: Something is wrong with your {metric_name}! Check the configuration parameters.')
+        b_size = None
+
     fig = ff.create_distplot(
         hist_data,
         group_labels,
-        bin_size=[freedman_diaconis(hist_data[0], returnas='width') * 8],
+        bin_size=b_size,
         colors=['#3366CC'],
         show_rug=False
     )
