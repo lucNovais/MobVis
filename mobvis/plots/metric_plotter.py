@@ -271,7 +271,8 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
         b_size = [freedman_diaconis(hist_data[0], returnas='width') * 8]
     except TypeError:
         print(f'WARNING: Something is wrong with your {metric_name}! Check the configuration parameters.')
-        b_size = 2
+        print("          Can't generate DISTPLOT on the given conditions, aborting...")
+        return None
 
     fig = ff.create_distplot(
         hist_data,
