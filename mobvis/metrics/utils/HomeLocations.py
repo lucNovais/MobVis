@@ -1,3 +1,4 @@
+from inspect import trace
 import pandas as pd
 
 from mobvis.utils import Timer
@@ -32,7 +33,7 @@ class HomeLocations:
         prev_row = trace_loc.iloc[0]
         longer_stay_time = 0
         stay_time = 0
-        current_home = 0
+        current_home = trace_loc.iloc[0]
         
         for index, row in trace_loc.iloc[1:].iterrows():
             if row.id == prev_row.id:
