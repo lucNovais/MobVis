@@ -1,3 +1,4 @@
+from distutils.log import warn
 import numpy as np
 import pandas as pd
 
@@ -546,138 +547,132 @@ def plot_visit_order(trace_viso, specific_users=None, users_to_display=None, sho
 
     return fig
 
-# def plot_locations(trace, sl_centers, initial_id, specific_users=[0],
-#                    users_to_display=None, limit_locations=False, show_title=True, show_y_label=True,
-#                    title='Stay Locations', img_width=600, img_height=560, **kwargs):
-#     """Function to generate a figure of the stay locations visited by a node or a group of nodes.
+def plot_locations(sl_centers, specific_users=[0],
+                   users_to_display=None, limit_locations=False, show_title=True, show_y_label=True,
+                   title='Stay Locations', img_width=600, img_height=560, **kwargs):
+    """Function to generate a figure of the stay locations visited by a node or a group of nodes.
 
-#     ### Parameters:
+    ### Parameters:
 
-#     `trace` (pandas.DataFrame): DataFrame corresponding to the trace.
-#     `sl_centers` (pandas.DataFrame): DataFrame corresponding to the center of the stay locations.
-#     `df_type` (str): String indicating the origin of the trace.
-#     `specific_users` (int[]): If specified, the plot will consider only the locations visited by the nodes on the list.
-#     `differ_nodes` (bool): If true, each node on the trace will have a different symbol.
-#     `users_to_display` (int): Number of users that will appear on the plot.
-#     `title` (str): Title of the graph.
-#     `img_width` (int): Image width.
-#     `img_height` (int): Image height.
+    `sl_centers` (pandas.DataFrame): DataFrame corresponding to the center of the Geo-locations.
+    `specific_users` (int[]): If specified, the plot will consider only the locations visited by the nodes on the list.
+    `differ_nodes` (bool): If true, each node on the trace will have a different symbol.
+    `users_to_display` (int): Number of users that will appear on the plot.
+    `title` (str): Title of the graph.
+    `img_width` (int): Image width.
+    `img_height` (int): Image height.
 
-#     ### Returns:
+    ### Returns:
 
-#     `fig` (plotly.scatter): Plotly figure corresponding to the stay locations visited by the node/nodes.
-#     """
-#     # TODO: Fix this plot.
+    `fig` (plotly.scatter): Plotly figure corresponding to the stay locations visited by the node/nodes.
+    """
 
-#     original_size = trace.id.size
+    sl_centers = fix_size_conditions(
+        df=sl_centers,
+        limit=10,
+        users_to_display=users_to_display,
+        specific_users=specific_users
+    )
 
-#     print(trace.head())
+    [xrange, yrange] = find_ranges(sl_centers)
 
-#     plt_trace = fix_size_conditions(original_size, initial_id, trace, 10, users_to_display, specific_users)
+    if limit_locations:
+        trace_vist = kwargs.get('visit_time')
+        aux_vist = pd.DataFrame()
 
-#     print(plt_trace.head())
+        try:
+            for i in specific_users:
+                aux_vist = trace_vist.loc[trace_vist.id==i]
+        except AttributeError:
+            warn("WARNING: The `limit_locations` attribute can not be passed as `True` with no `visit_time` dataframe included on the kwargs!")
+            return
 
-#     sl_centers = fix_size_conditions(original_size, initial_id, sl_centers, 10, users_to_display, specific_users)
+        most_time_spent = aux_vist.sort_values(['visit_time'], ascending=False).head(10)['sl'].values
+        most_relevant_loc = pd.DataFrame(columns=['sl', 'x', 'y'])
 
-#     [xrange, yrange] = find_ranges(trace)
-
-#     if limit_locations:
-#         trace_vist = kwargs.get('visit_time')
-#         aux_vist = pd.DataFrame()
-
-#         for i in specific_users:
-#             aux_vist = trace_vist.loc[trace_vist.id==i]
-
-#         most_time_spent = aux_vist.sort_values(['visit_time'], ascending=False).head(10)['sl'].values
-#         most_relevant_loc = pd.DataFrame(columns=['sl', 'x', 'y'])
-
-#         for location in most_time_spent:
-#             append_row = sl_centers.loc[sl_centers.sl==location]
-#             most_relevant_loc = most_relevant_loc.append({
-#                 'sl': append_row.sl.values[0],
-#                 'x': append_row.x.values[0],
-#                 'y': append_row.y.values[0]
-#             }, ignore_index=True)
+        for location in most_time_spent:
+            append_row = sl_centers.loc[sl_centers.sl==location]
+            most_relevant_loc = pd.concat([most_relevant_loc, append_row], ignore_index=True)
             
-#         sl_centers = most_relevant_loc
-#         sl_centers.sl = sl_centers.sl.astype('int').astype('str')
+        sl_centers = most_relevant_loc
+        sl_centers.sl = sl_centers.sl.astype('int').astype('str')
 
-#     fig = px.scatter(
-#         sl_centers,
-#         x='x',
-#         y='y',
-#         color='sl',
-#         labels= {
-#             'timestamp': 'Timestamp',
-#             'sl': 'Geo<br>Location'
-#         },
-#         hover_data=['sl']
-#     )
+    fig = px.scatter(
+        sl_centers,
+        x='x',
+        y='y',
+        color='sl',
+        labels= {
+            'timestamp': 'Timestamp',
+            'sl': 'Geo<br>Location'
+        },
+        hover_data=['sl']
+    )
     
-#     customdata = np.stack((plt_trace['sl']))
+    customdata = np.stack((sl_centers['sl']))
 
-#     fig.update_traces(
-#         marker_size=10,
-#         hovertemplate =
-#             '<i><b>Geo Location</b></i><br><br>' +
-#             'Location ID: %{customdata[0]}<br>' +
-#             'x: %{x}<br>' +
-#             'y: %{y}'
-#     )
+    fig.update_traces(
+        marker_size=10,
+        hovertemplate =
+            '<i><b>Geo Location</b></i><br><br>' +
+            'Location ID: %{customdata[0]}<br>' +
+            'x: %{x}<br>' +
+            'y: %{y}'
+    )
 
-#     if show_title:
-#         title_dict = {
-#             'text': title,
-#             'font_color': 'black',
-#             'x': 0.5,
-#             'y': 0.98
-#         }
-#         margin_dict = dict(t=40, b=25)
-#     else:
-#         title_dict = None
-#         margin_dict = dict(t=10, b=25)
+    if show_title:
+        title_dict = {
+            'text': title,
+            'font_color': 'black',
+            'x': 0.5,
+            'y': 0.98
+        }
+        margin_dict = dict(t=40, b=25)
+    else:
+        title_dict = None
+        margin_dict = dict(t=10, b=25)
 
-#     if not show_y_label:
-#         fig.update_yaxes(visible=False)
-#         margin_dict['l'] = 10
-#         margin_dict['r'] = 10
-#     else:
-#         margin_dict['l'] = 12
-#         margin_dict['r'] = 10
+    if not show_y_label:
+        fig.update_yaxes(visible=False)
+        margin_dict['l'] = 10
+        margin_dict['r'] = 10
+    else:
+        margin_dict['l'] = 12
+        margin_dict['r'] = 10
 
-#     fig.update_layout(
-#         width=img_width,
-#         height=img_height,
-#         title=title_dict,
-#         font=dict(
-#             size=16
-#         ),
-#         title_font_size=22,
-#         coloraxis_colorbar=dict(
-#             yanchor='top',
-#             xanchor='left',
-#             y=1.009,
-#             x=1
-#         ),
-#         legend_font_size=24,
-#         legend_title_font_size=22,
-#         margin=margin_dict
-#     )
+    fig.update_layout(
+        width=img_width,
+        height=img_height,
+        title=title_dict,
+        font=dict(
+            size=16
+        ),
+        title_font_size=22,
+        coloraxis_colorbar=dict(
+            yanchor='top',
+            xanchor='left',
+            y=1.009,
+            x=1
+        ),
+        legend_font_size=24,
+        legend_title_font_size=22,
+        margin=margin_dict
+    )
 
-#     fig.update_yaxes(
-#         tickfont=dict(size=22),
-#         title_font_size=24,
-#         range=yrange
-#     )
-#     fig.update_xaxes(
-#         tickfont=dict(size=22),
-#         title_font_size=24,
-#         range=xrange
-#     )
+    fig.update_yaxes(
+        tickfont=dict(size=22),
+        title_font_size=24,
+        range=yrange
+    )
+    fig.update_xaxes(
+        tickfont=dict(size=22),
+        title_font_size=24,
+        range=xrange
+    )
 
-#     print('\nSuccessfully generated plot!')
+    print('\nSuccessfully generated plot!')
 
-#     return fig
+    return fig
 
 # def plot_animated_movements(trace, initial_id, specific_users=None, differ_nodes=True, users_to_display=None, speed_multiplier=1,
 #                             show_title=True, show_y_label=True, title='Trace Animated Movements', md='markers', img_width=600, img_height=560, **kwargs):
