@@ -10,7 +10,7 @@ from mobvis.utils.Utils import config_metric_plot
 @Timer.timed
 def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_users=None,
                           users_to_display=None, hnorm=None, show_title=True, show_y_label = True,
-                          img_width=600, img_height=560, title='Histogram ', **kwargs):
+                          img_width=600, img_height=560, title=' - Histogram', **kwargs):
     """Generates a histogram of the given metric DataFrame.
 
     ### Parameters:
@@ -58,7 +58,7 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
     
     if show_title:
         title_dict = {
-            'text': title + title_complement,
+            'text': title_complement + title,
             'font_color': 'black',
             'x': 0.5,
             'y': 0.98
@@ -82,7 +82,7 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
         height=img_height,
         title=title_dict,
         font=dict(
-            size=16
+            size=20
         ),
         title_font_size=18,
         coloraxis_colorbar=dict(
@@ -196,7 +196,7 @@ def boxplot_metric(metric_df, metric_name, differ_nodes=False, specific_users=No
         font=dict(
             size=16
         ),
-        title_font_size=18,
+        title_font_size=22,
         coloraxis_colorbar=dict(
             yanchor='top',
             xanchor='left',
@@ -225,8 +225,8 @@ def boxplot_metric(metric_df, metric_name, differ_nodes=False, specific_users=No
     return fig
 
 def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=None,
-                     users_to_display=None, show_title=True, show_y_label = True,
-                     img_width=600, img_height=560, title='Distribution ', **kwargs):
+                     bin_size_multiplier=1, users_to_display=None, show_title=True, show_y_label = True,
+                     img_width=600, img_height=560, title=' - Distribution', **kwargs):
     """Generates a distplot of the given metric DataFrame.
 
     ### Parameters:
@@ -268,7 +268,7 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
         group_labels = [f'{title_complement}']
 
     try:
-        b_size = [freedman_diaconis(hist_data[0], returnas='width') * 8]
+        b_size = [freedman_diaconis(hist_data[0], returnas='width') * bin_size_multiplier]
     except TypeError:
         print(f'WARNING: Something is wrong with your {metric_name}! Check the configuration parameters.')
         print("          Can't generate DISTPLOT on the given conditions, aborting...")
@@ -284,7 +284,7 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
 
     if show_title:
         title_dict = {
-            'text': title + title_complement,
+            'text': title_complement + title,
             'font_color': 'black',
             'x': 0.5,
             'y': 0.98
@@ -325,7 +325,7 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
 
     fig.update_yaxes(
         tickfont=dict(size=24),
-        title_font_size=26
+        title_font_size=22
     )
     fig.update_xaxes(
         tickangle=-45,

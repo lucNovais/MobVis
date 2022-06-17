@@ -310,7 +310,6 @@ def plot_density(trace, specific_users=None, users_to_display=None, xrange=None,
 
     `fig` (plotly.graph_objects.Figure): Plotly figure with the density of the trace markers on the map.
     """
-
     plt_trace = fix_size_conditions(
         df=trace,
         limit=15,
@@ -531,7 +530,7 @@ def plot_visit_order(trace_viso, specific_users=None, users_to_display=None, sho
 
     fig.update_traces(
         marker_size=6,
-        textfont_size=12
+        textfont_size=14
     )
     
     fig.update_yaxes(
@@ -547,9 +546,9 @@ def plot_visit_order(trace_viso, specific_users=None, users_to_display=None, sho
 
     return fig
 
-def plot_locations(sl_centers, specific_users=[0],
+def plot_locations(sl_centers, specific_users=[0], differ_nodes=False,
                    users_to_display=None, limit_locations=False, show_title=True, show_y_label=True,
-                   title='Stay Locations', img_width=600, img_height=560, **kwargs):
+                   title='Geo-locations', img_width=600, img_height=560, **kwargs):
     """Function to generate a figure of the stay locations visited by a node or a group of nodes.
 
     ### Parameters:
@@ -558,6 +557,9 @@ def plot_locations(sl_centers, specific_users=[0],
     `specific_users` (int[]): If specified, the plot will consider only the locations visited by the nodes on the list.
     `differ_nodes` (bool): If true, each node on the trace will have a different symbol.
     `users_to_display` (int): Number of users that will appear on the plot.
+    `limit_locations` (bool): If true, limit the Geo-locations that will appear on the plot for the 10 locations with most
+                              time spent by the users (remember to use this with the travel time metric and specify the nodes that will appear by
+                              the `users_to_display` parameter).
     `title` (str): Title of the graph.
     `img_width` (int): Image width.
     `img_height` (int): Image height.
@@ -575,6 +577,12 @@ def plot_locations(sl_centers, specific_users=[0],
     )
 
     [xrange, yrange] = find_ranges(sl_centers)
+
+    if differ_nodes:
+        smap = 'id'
+        img_width += 140
+    else:
+        smap = None
 
     if limit_locations:
         trace_vist = kwargs.get('visit_time')
@@ -602,6 +610,7 @@ def plot_locations(sl_centers, specific_users=[0],
         x='x',
         y='y',
         color='sl',
+        symbol=smap,
         labels= {
             'timestamp': 'Timestamp',
             'sl': 'Geo<br>Location'
@@ -654,7 +663,7 @@ def plot_locations(sl_centers, specific_users=[0],
             y=1.009,
             x=1
         ),
-        legend_font_size=24,
+        legend_font_size=20,
         legend_title_font_size=22,
         margin=margin_dict
     )
