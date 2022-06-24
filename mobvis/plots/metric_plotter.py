@@ -52,7 +52,7 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
         histnorm=hnorm,
         labels={
             x_values: title_complement
-        },
+        },  
         **kwargs
     )
     
@@ -84,7 +84,7 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
         font=dict(
             size=20
         ),
-        title_font_size=18,
+        title_font_size=22,
         coloraxis_colorbar=dict(
             yanchor='top',
             xanchor='left',
@@ -310,7 +310,7 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
         font=dict(
             size=16
         ),
-        title_font_size=18,
+        title_font_size=22,
         coloraxis_colorbar=dict(
             yanchor='top',
             xanchor='left',
