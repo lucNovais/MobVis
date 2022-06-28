@@ -60,7 +60,7 @@ class Parser:
 
             raw_trace = raw_trace[raw_trace.columns.intersection(COLUMNS_FILTER)]
 
-            if len(raw_trace.columns < 4):
+            if len(raw_trace.columns) < 4:
                 raise ValueError('Raw trace must have at least 4 columns, containing the following informations: Timestamp, Identifier, Coordinates')
 
         # Check if the timestamps column in the raw trace are on the datetime format, and consider some

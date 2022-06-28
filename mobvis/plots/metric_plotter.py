@@ -1,3 +1,4 @@
+from distutils.log import warn
 import plotly.express as px
 import plotly.figure_factory as ff
 
@@ -36,12 +37,16 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
 
     [x_values, cmap, title_complement] = config_metric_plot(metric_name, differ_nodes)
 
-    plt_metric = fix_size_conditions(
-        df=metric_df,
-        limit=None,
-        users_to_display=users_to_display,
-        specific_users=specific_users
-    )
+    try:
+        plt_metric = fix_size_conditions(
+            df=metric_df,
+            limit=None,
+            users_to_display=users_to_display,
+            specific_users=specific_users
+        )
+    except IndexError:
+        warn("Could not generate plot!")
+        return None
 
     fig = px.histogram(
         plt_metric,
@@ -52,7 +57,7 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
         histnorm=hnorm,
         labels={
             x_values: title_complement
-        },  
+        },
         **kwargs
     )
     
@@ -148,12 +153,16 @@ def boxplot_metric(metric_df, metric_name, differ_nodes=False, specific_users=No
 
     [y_values, x_values, title_complement] = config_metric_plot(metric_name, differ_nodes)
 
-    plt_metric = fix_size_conditions(
-        df=metric_df,
-        limit=None,
-        users_to_display=users_to_display,
-        specific_users=specific_users
-    )
+    try:
+        plt_metric = fix_size_conditions(
+            df=metric_df,
+            limit=None,
+            users_to_display=users_to_display,
+            specific_users=specific_users
+        )
+    except IndexError:
+        warn("Could not generate plot!")
+        return None
 
     fig = px.box(
         plt_metric,
@@ -256,12 +265,20 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
 
     if specific_users:
         for node in specific_users:
-            data = fix_size_conditions(metric_df, None, users_to_display, [node])
+            try:
+                data = fix_size_conditions(metric_df, None, users_to_display, [node])
+            except IndexError:
+                warn("Could not generate plot!")
+                return None
             hist_data.append(data[x_values].values)
             group_labels.append(f'Node {str(node)}')
     else:
         if 'id' in metric_df.columns:
-            data = fix_size_conditions(metric_df, None, users_to_display, specific_users)
+            try:
+                data = fix_size_conditions(metric_df, None, users_to_display, specific_users)
+            except IndexError:
+                warn("Could not generate plot!")
+                return None
         else:
             data = metric_df
         hist_data = [list(data[x_values].values)]

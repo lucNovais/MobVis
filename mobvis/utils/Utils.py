@@ -23,7 +23,11 @@ def fix_size_conditions(df, limit, users_to_display, specific_users):
 
     if 'id' in df.columns:
         original_size = df.id.size
-        initial_id = get_trace_initial_id(df)
+        try:
+            initial_id = get_trace_initial_id(df)
+        except IndexError as err:
+            print('here')
+            raise err
 
         if not limit:
             limit = original_size
@@ -132,7 +136,11 @@ def get_trace_initial_id(metric_df):
     """
 
     if 'id' in metric_df.columns:
-        initial_id = metric_df.id.values[0]
+        try:
+            initial_id = metric_df.id.values[0]
+        except IndexError as err:
+            warn("WARNING: Something went wrong while extracting the given metric! Plot cannot be generated.")
+            raise err
     else:
         initial_id = metric_df.id1.values[0]
 
