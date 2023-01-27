@@ -4,6 +4,8 @@ import numpy as np
 from scipy.spatial import distance
 from mobvis.utils import Timer
 
+from multiprocessing.pool import ThreadPool
+
 from mobvis.utils.Utils import haversine
 
 class Locations:
@@ -77,6 +79,19 @@ class Locations:
         return trace
 
     @classmethod
+    def multifinder_locations(cls, traces, max_distances, pause_thresholds, dist_types):
+        print('Finding locations for multiple traces:\n')
+
+        locations = []
+        args = [(traces[i], max_distances[i], pause_thresholds[i], dist_types[i]) for i in range(0, len(traces))]
+
+        with ThreadPool() as pool:
+            for result in pool.starmap(cls.find_locations, args):
+                locations.append(result)
+        
+        return locations
+
+    @classmethod
     @Timer.timed
     def find_locations(cls, trace, max_d, pause_threshold, dist_type):
         """Finds the Stay-locations and Geo-locations of all nodes of a trace.
@@ -94,7 +109,7 @@ class Locations:
         `sl_centers` (pandas.DataFrame): The centers of the Stay-locations based on the value of all the points on that location.
         """
         print('Finding the stay and geo locations...')
-        print(f'\nParameters:\nMax Distance: {max_d}\nPause Threshold: {pause_threshold}\nDistance Formula: {dist_type}')
+        print(f'\nParameters:\nMax Distance: {max_d}\nPause Threshold: {pause_threshold}\nDistance Formula: {dist_type}\n')
 
         trace_loc = pd.DataFrame(columns=['id', 'x', 'y', 'sl', 'gl'])
         sl_centers = pd.DataFrame(columns=['id', 'sl', 'x', 'y'])

@@ -3,6 +3,8 @@ import pandas as pd
 from mobvis.utils import Timer
 from mobvis.utils import Converters
 
+from concurrent.futures import ThreadPoolExecutor
+
 import mobvis.utils.constants as constants
 
 pd.set_option('display.precision', 10)
@@ -12,8 +14,20 @@ class Parser:
         pass
 
     @classmethod
+    def multiparse(cls, raw_traces):
+        print('Multiparsing:\n')
+
+        std_traces = []
+
+        with ThreadPoolExecutor() as executor:
+            for result in executor.map(cls.parse, raw_traces):
+                std_traces.append(result)
+        
+        return std_traces
+
+    @classmethod
     @Timer.timed
-    def parse(cls, raw_trace, is_ordered):
+    def parse(cls, raw_trace, is_ordered=True):
         """Method that converts the given DataFrame to the MobVis standard format.
 
         ### Parameters:

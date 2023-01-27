@@ -1,5 +1,6 @@
-from inspect import trace
 import pandas as pd
+
+from concurrent.futures import ThreadPoolExecutor
 
 from mobvis.utils import Timer
 
@@ -9,6 +10,18 @@ class HomeLocations:
     """
     def __init__(self):
         pass
+
+    @classmethod
+    def multifinder_homes(cls, trace_locations):
+        print('Finding home locations for multiple traces:\n')
+
+        homes = []
+
+        with ThreadPoolExecutor() as executor:
+            for result in executor.map(cls.find_homes, trace_locations):
+                homes.append(result)
+        
+        return homes
 
     @classmethod
     @Timer.timed
