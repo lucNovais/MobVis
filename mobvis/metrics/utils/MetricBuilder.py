@@ -8,6 +8,7 @@ from mobvis.metrics.social.IntercontactTime import IntercontactTime
 class MetricBuilder:
     """Factory pattern to create metrics based on user request.
     """
+
     @staticmethod
     def build_metric(metric, **kwargs):
         """Method that builds a metric with specific parameters.

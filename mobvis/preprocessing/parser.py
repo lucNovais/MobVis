@@ -3,7 +3,7 @@ import pandas as pd
 from mobvis.utils import Timer
 from mobvis.utils import Converters
 
-from concurrent.futures import ThreadPoolExecutor
+from multiprocessing.pool import ThreadPool
 
 import mobvis.utils.constants as constants
 
@@ -14,13 +14,29 @@ class Parser:
         pass
 
     @classmethod
-    def multiparse(cls, raw_traces):
+    def multiparse(cls, raw_traces, ordered_flags):
+        """Method that converts multiple DataFrames to the MobVis standard format concurrently, using threads.
+
+        ### Parameters:
+
+        `raw_traces` (pandas.DataFrame[]): Raw DataFrames list containing the original traces
+        `ordered_flags` (bool[]): 'True' if the rows of the raw DataFrame are ordered by the id and timestamps, `False` otherwise, following the raw_traces list order.
+
+        ### Returns:
+
+        `std_traces` (pandas.DataFrame[]): DataFrames list corresponding to the parsed traces.
+        """
         print('Multiparsing:\n')
+
+        if len(ordered_flags) == 0:
+            ordered_flags = [True for _ in range(0, len(raw_traces))]
+
+        args = [(raw_traces[i], ordered_flags[i]) for i in range(0, len(raw_traces))]
 
         std_traces = []
 
-        with ThreadPoolExecutor() as executor:
-            for result in executor.map(cls.parse, raw_traces):
+        with ThreadPool() as pool:
+            for result in pool.starmap(cls.parse, args):
                 std_traces.append(result)
         
         return std_traces

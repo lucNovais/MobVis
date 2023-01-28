@@ -1,8 +1,9 @@
-from inspect import trace
 import pandas as pd
 
 from mobvis.utils import Timer
 from mobvis.metrics.utils.IMetric import IMetric
+
+from concurrent.futures import ThreadPoolExecutor
 
 from scipy.spatial import distance
 from mobvis.utils.Utils import haversine
@@ -22,7 +23,7 @@ class TravelDistance(IMetric):
         
         self.name = 'TRVD'
 
-        self.trace_loc = trace_loc.loc[trace_loc.gl == True]
+        self.trace_loc = trace_loc.loc[trace_loc.gl == True] if len(trace_loc) == 1 else [trace_loc[i].loc[trace_loc[i].gl == True] for i in range(0, len(trace_loc))]
         self.dist_type = dist_type
 
     @Timer.timed
