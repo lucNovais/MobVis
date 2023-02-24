@@ -1,7 +1,9 @@
 from distutils.log import warn
 import plotly.express as px
+import plotly.graph_objects as go
 import plotly.figure_factory as ff
 
+from plotly.subplots import make_subplots
 from mobvis.utils import Timer
 
 from mobvis.utils.Utils import freedman_diaconis
@@ -359,5 +361,90 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
         ))
 
     print('\nSuccessfully generated distplot!')
+
+    return fig
+
+def subplot_metric_histogram(metric_dfs, metric_name, trace_names, differ_nodes=False, specific_users=None,
+                            users_to_display=None, hnorm=None, show_title=True, show_y_label = True,
+                            img_width=1200, img_height=580, title=' - Histograms', **kwargs):
+    fig = make_subplots(rows=1, cols=2, subplot_titles=trace_names)
+
+    [x_values, cmap, title_complement] = config_metric_plot(metric_name, differ_nodes)
+
+    for i, metric_df in enumerate(metric_dfs):
+        if i == 0:
+            row = 1
+            column = 1
+        elif i == 1:
+            row = 1
+            column = 2
+        
+        fig.add_trace(
+            go.Histogram(
+                x=metric_df[x_values]
+            )
+            , row=row, col=column
+        )
+
+    fig.update_annotations(font_size=20)
+
+    if show_title:
+        title_dict = {
+            'text': title_complement + title,
+            'font_color': 'black',
+            'x': 0.5,
+            'y': 0.98
+        }
+        margin_dict = dict(t=70, b=25)
+    else:
+        title_dict = None
+        margin_dict = dict(t=10, b=25)
+
+    if not show_y_label:
+        margin_dict['l'] = 10
+        margin_dict['r'] = 10
+        y_title = None
+    else:
+        margin_dict['l'] = 12
+        margin_dict['r'] = 10
+        y_title = 'Occurrences'
+
+    fig.update_layout(
+        width=img_width,
+        height=img_height,
+        title=title_dict,
+        font=dict(
+            size=20
+        ),
+        title_font_size=22,
+        coloraxis_colorbar=dict(
+            yanchor='top',
+            xanchor='left',
+            y=1.009,
+            x=1
+        ),
+        yaxis_title=y_title,
+        margin=margin_dict
+    )
+
+    fig.update_yaxes(
+        tickfont=dict(size=24),
+        title_font_size=26
+    )
+    fig.update_xaxes(
+        tickangle=-45,
+        tickfont=dict(size=24),
+        title_font_size=26
+    )
+
+    if differ_nodes:
+        fig.update_layout(
+            legend=dict(
+                yanchor='top',
+                xanchor='center',
+                x=-0.34
+        ))
+    else:
+        fig.update_layout(showlegend=False)
 
     return fig

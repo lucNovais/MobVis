@@ -30,7 +30,7 @@ class RadiusOfGyration(IMetric):
         self.dist_type = dist_type
 
     @Timer.timed
-    def extract(self):
+    def extract(self, proc_num=None, return_dict=None):
         """Method that extracts the Radius of Gyration metric.
 
         ### Returns:
@@ -50,7 +50,7 @@ class RadiusOfGyration(IMetric):
     
         for i in id_list:
             # Gets the current node home location
-            home_location = (self.homes.loc[self.homes.id == i].x, self.homes.loc[self.homes.id == i].y)
+            home_location = (self.homes.loc[self.homes.id == i].x.values[0], self.homes.loc[self.homes.id == i].y.values[0])
             # Gets all the points visited by this specific node
             points = [(row[1].x, row[1].y) for row in self.trace.loc[self.trace.id == i].iterrows()]
         
@@ -67,7 +67,10 @@ class RadiusOfGyration(IMetric):
 
         print('Radius of Gyration extracted successfully!')
 
-        return radg_df
+        if proc_num != None:
+            return_dict[proc_num] = radg_df
+        else:
+            return radg_df
 
     def euclidean_radius_of_gyration_formula(self, points, home_location):
         """Iterates over all the points passed and evaluates the Radius of Gyration formula
@@ -77,6 +80,7 @@ class RadiusOfGyration(IMetric):
         total_sum = 0
         for point in points:
             total_sum += pow(distance.euclidean((point[0], point[1]), home_location), 2)
+
         radg = (1/len(points)) * total_sum
         radg = sqrt(radg)
         

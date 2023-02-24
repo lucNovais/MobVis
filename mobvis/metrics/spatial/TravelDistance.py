@@ -23,11 +23,12 @@ class TravelDistance(IMetric):
         
         self.name = 'TRVD'
 
-        self.trace_loc = trace_loc.loc[trace_loc.gl == True] if len(trace_loc) == 1 else [trace_loc[i].loc[trace_loc[i].gl == True] for i in range(0, len(trace_loc))]
+        # self.trace_loc = trace_loc.loc[trace_loc.gl == True] if len(trace_loc) == 1 else [trace_loc[i].loc[trace_loc[i].gl == True] for i in range(0, len(trace_loc))]
+        self.trace_loc = trace_loc.loc[trace_loc.gl == True]
         self.dist_type = dist_type
 
     @Timer.timed
-    def extract(self):
+    def extract(self, proc_num=None, return_dict=None):
         """Method that extracts the Travel Distance metric.
 
         ### Returns:
@@ -62,7 +63,10 @@ class TravelDistance(IMetric):
                     
         print('Travel Distance extracted successfully!\n')
 
-        return trvd_df
+        if proc_num != None:
+            return_dict[proc_num] = trvd_df
+        else:
+            return trvd_df
 
     def haversine_iterator(self, trvd_df):
         """Method that finds the Travel Distance based on the Haversine formula.

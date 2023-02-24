@@ -17,7 +17,7 @@ class VisitTime(IMetric):
         self.trace_loc = trace_loc.loc[trace_loc.gl == True]
 
     @Timer.timed
-    def extract(self):
+    def extract(self, proc_num=None, return_dict=None):
         """Method that extracts the Visit Time metric.
 
         ### Returns:
@@ -64,4 +64,7 @@ class VisitTime(IMetric):
 
         print('Visit Time extracted successfully!\n')
 
-        return vist_df
+        if proc_num != None:
+            return_dict[proc_num] = vist_df
+        else:
+            return vist_df

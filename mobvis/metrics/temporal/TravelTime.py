@@ -17,7 +17,7 @@ class TravelTime(IMetric):
         self.trace_loc = trace_loc.loc[trace_loc.gl == True]
 
     @Timer.timed
-    def extract(self):
+    def extract(self, proc_num=None, return_dict=None):
         """Method that extracts the Travel Time metric.
 
         ### Returns:
@@ -58,4 +58,7 @@ class TravelTime(IMetric):
                     
         print('Travel Distance extracted successfully!\n')
 
-        return trvt_df
+        if proc_num != None:
+            return_dict[proc_num] = trvt_df
+        else:
+            return trvt_df

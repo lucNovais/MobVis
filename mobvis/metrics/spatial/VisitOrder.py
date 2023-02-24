@@ -18,7 +18,7 @@ class VisitOrder(IMetric):
         self.initial_id = int(self.trace_loc.id[0])
 
     @Timer.timed
-    def extract(self):
+    def extract(self, proc_num=None, return_dict=None):
         """Method that extracts the Visit Order metric.
 
         ### Returns:
@@ -58,4 +58,7 @@ class VisitOrder(IMetric):
 
         print('Visit Order extracted successfully!')
 
-        return viso_df
+        if proc_num != None:
+            return_dict[proc_num] = viso_df
+        else:
+            return viso_df
