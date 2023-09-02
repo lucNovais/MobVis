@@ -15,7 +15,8 @@ class Parser:
 
     @classmethod
     def multiparse(cls, raw_traces, ordered_flags):
-        """Method that converts multiple DataFrames to the MobVis standard format concurrently, using threads.
+        """ Method that converts multiple DataFrames to the MobVis standard format
+            concurrently, using threads.
 
         ### Parameters:
 
@@ -44,7 +45,7 @@ class Parser:
     @classmethod
     @Timer.timed
     def parse(cls, raw_trace, is_ordered=True):
-        """Method that converts the given DataFrame to the MobVis standard format.
+        """ Method that converts a given DataFrame to the MobVis standard format.
 
         ### Parameters:
 
@@ -69,8 +70,8 @@ class Parser:
         return std_trace
 
     def check_columns(raw_trace):
-        """Detects the columns of the raw trace and performs the procedures to convert
-           them (if needed) to the standard MobVis format.
+        """ Detects the columns of the raw trace and performs the procedures to convert
+            them (if needed) to the standard MobVis format.
         """
         print('Checking the raw trace columns...')
 
@@ -123,7 +124,7 @@ class Parser:
 
 
     def order_rows(std_trace):
-        """Order the rows based on the nodes identifiers and timestamps.
+        """ Order the rows based on the nodes identifiers and timestamps.
         """
         print('Sorting rows...')
 
@@ -133,11 +134,12 @@ class Parser:
 
     @classmethod
     def fix_timestamps(cls, std_trace):
-        """Takes the smallest timestamp from the original trace and uses it as the zero timestamp.
-           From there, it defines the other timestamps of the trace from the difference of the original
-           timestamps and the smallest timestamp.
+        """ Takes the smallest timestamp from the original trace and uses it as the zero timestamp.
+            From there, it defines the other timestamps of the trace from the difference of the original
+            timestamps and the smallest timestamp.
         """
         print('Fixing the timestamps...')
+
         try:
             std_trace['timestamp'] = std_trace['timestamp'].astype(float)
             std_trace['id'] = std_trace['id'].astype(int)
