@@ -1,5 +1,3 @@
-import pandas as pd
-
 from mobvis.metrics.spatial.TravelDistance import TravelDistance
 from mobvis.metrics.spatial.RadiusOfGyration import RadiusOfGyration
 from mobvis.metrics.spatial.VisitOrder import VisitOrder
