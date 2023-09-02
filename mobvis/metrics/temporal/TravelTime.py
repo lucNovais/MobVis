@@ -5,7 +5,7 @@ from mobvis.metrics.utils.IMetric import IMetric
 
 class TravelTime(IMetric):
     def __init__(self, trace_loc):
-        """Class that corresponds to the Travel Time temporal metric.
+        """ Class that corresponds to the Travel Time (TRVT) temporal metric.
 
         ### Attributes:
 
@@ -18,7 +18,7 @@ class TravelTime(IMetric):
 
     @Timer.timed
     def extract(self, proc_num=None, return_dict=None):
-        """Method that extracts the Travel Time metric.
+        """ Method that extracts the Travel Time metric.
 
         ### Returns:
 

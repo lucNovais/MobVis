@@ -5,7 +5,7 @@ from mobvis.metrics.utils.IMetric import IMetric
 
 class ContactDuration(IMetric):
     def __init__(self, filename, trace, df_type, req_dataframes):
-        """Class that corresponds to the Contact Duration social metric.
+        """ Class that corresponds to the Contact Duration (CODU) social metric.
         """
 
         self.contacts_df = req_dataframes['contacts_df']

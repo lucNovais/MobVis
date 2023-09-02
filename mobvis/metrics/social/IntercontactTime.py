@@ -5,7 +5,7 @@ from mobvis.metrics.utils.IMetric import IMetric
 
 class IntercontactTime(IMetric):
     def __init__(self, contacts_df):
-        """Class that corresponds to the Inter-contact Time social metric.
+        """ Class that corresponds to the Inter-contact Time (INCO) social metric.
 
         ### Attributes:
 
@@ -19,7 +19,7 @@ class IntercontactTime(IMetric):
 
     @Timer.timed
     def extract(self):
-        """Method that extracts the Intercontact Time metric.
+        """ Method that extracts the Intercontact Time metric.
 
         ### Returns:
 

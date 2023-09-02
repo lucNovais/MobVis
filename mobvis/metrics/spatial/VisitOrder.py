@@ -5,7 +5,7 @@ from mobvis.metrics.utils.IMetric import IMetric
 
 class VisitOrder(IMetric):
     def __init__(self, trace_loc):
-        """Class that corresponds to the Visit Order spatiotemporal metric.
+        """ Class that corresponds to the Visit Order (VISO) spatiotemporal metric.
 
         ### Attributes:
 
@@ -19,7 +19,7 @@ class VisitOrder(IMetric):
 
     @Timer.timed
     def extract(self, proc_num=None, return_dict=None):
-        """Method that extracts the Visit Order metric.
+        """ Method that extracts the Visit Order metric.
 
         ### Returns:
 

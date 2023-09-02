@@ -10,7 +10,7 @@ from math import sqrt
 
 class RadiusOfGyration(IMetric):
     def __init__(self, trace, trace_loc, sl_centers, homes, dist_type):
-        """Class that corresponds to the Radius of Gyration spatial metric.
+        """ Class that corresponds to the Radius of Gyration (RADG) spatial metric.
 
         ### Attributes:
 
@@ -31,7 +31,7 @@ class RadiusOfGyration(IMetric):
 
     @Timer.timed
     def extract(self, proc_num=None, return_dict=None):
-        """Method that extracts the Radius of Gyration metric.
+        """ Method that extracts the Radius of Gyration metric.
 
         ### Returns:
 
@@ -63,6 +63,7 @@ class RadiusOfGyration(IMetric):
                 'home_location': [self.homes.loc[self.homes.id == i].home_location.values[0]],
                 'radius_of_gyration': [radg]
             })
+
             radg_df = pd.concat([radg_df, new_row], ignore_index=True)
 
         print('Radius of Gyration extracted successfully!')
@@ -73,9 +74,9 @@ class RadiusOfGyration(IMetric):
             return radg_df
 
     def euclidean_radius_of_gyration_formula(self, points, home_location):
-        """Iterates over all the points passed and evaluates the Radius of Gyration formula
-           using the given Home Location as the center of mass. The distance is calculated
-           with the Euclidean formula.
+        """ Iterates over all the points passed and evaluates the Radius of Gyration formula
+            using the given Home Location as the center of mass. The distance is calculated
+            with the Euclidean formula.
         """
         total_sum = 0
         for point in points:
@@ -87,9 +88,9 @@ class RadiusOfGyration(IMetric):
         return radg
 
     def haversine_radius_of_gyration_formula(self, points, home_location):
-        """Iterates over all the points passed and evaluates the Radius of Gyration formula
-           using the given Home Location as the center of mass. The distance is calculated
-           with the Haversine formula.
+        """ Iterates over all the points passed and evaluates the Radius of Gyration formula
+            using the given Home Location as the center of mass. The distance is calculated
+            with the Haversine formula.
         """
         total_sum = 0
         for point in points:

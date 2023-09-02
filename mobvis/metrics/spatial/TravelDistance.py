@@ -13,7 +13,7 @@ from mobvis.utils.Utils import haversine
 
 class TravelDistance(IMetric):
     def __init__(self, trace_loc, dist_type):
-        """Class that corresponds to the Travel Distance spatial metric.
+        """ Class that corresponds to the Travel Distance (TRVD) spatial metric.
 
         ### Attributes:
 
@@ -29,7 +29,7 @@ class TravelDistance(IMetric):
 
     @Timer.timed
     def extract(self, proc_num=None, return_dict=None):
-        """Method that extracts the Travel Distance metric.
+        """ Method that extracts the Travel Distance metric.
 
         ### Returns:
 
@@ -101,7 +101,7 @@ class TravelDistance(IMetric):
         return trvd_df
 
     def euclidean_iterator(self, trvd_df):
-        """Method that finds the Travel Distance based on the Euclidean formula.
+        """ Method that finds the Travel Distance based on the Euclidean formula.
         """
         for index, row in enumerate(self.trace_loc.iterrows()):
             if index == 0:
