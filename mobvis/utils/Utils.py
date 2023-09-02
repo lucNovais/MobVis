@@ -7,7 +7,7 @@ from math import radians, cos, sin, asin, sqrt
 
 
 def fix_size_conditions(df, limit, users_to_display, specific_users):
-    """Function for filtering the trace to the specified or default conditions.
+    """ Function for filtering the trace to the specified or default conditions.
 
     ### Parameters:
 
@@ -26,7 +26,6 @@ def fix_size_conditions(df, limit, users_to_display, specific_users):
         try:
             initial_id = get_trace_initial_id(df)
         except IndexError as err:
-            print('here')
             raise err
 
         if not limit:
@@ -48,7 +47,7 @@ def fix_size_conditions(df, limit, users_to_display, specific_users):
     return df
 
 def filter_df(full_df, min_index=None, max_index=None, ids_list=None):
-    """Removes all the nodes that should not appear on the fixed DataFrame.
+    """ Removes all the nodes that should not appear on the fixed DataFrame.
     """
     fixed_df = pd.DataFrame()
 
@@ -62,7 +61,7 @@ def filter_df(full_df, min_index=None, max_index=None, ids_list=None):
     return fixed_df
 
 def find_ranges(trace):
-    """Function for finding the range of the plot axes based on the x and y values.
+    """ Function for finding the range of the plot axes based on the x and y values.
 
     ### Parameters:
 
@@ -85,8 +84,8 @@ def find_ranges(trace):
     return [xrange, yrange]
 
 def config_metric_plot(metric_name, differ_nodes):
-    """Function that takes the metric type and devines the name of the column that needs to be used
-       for generating the statistical plots.
+    """ Function that takes the metric type and defines the name of the column that needs to be used
+        for generating the statistical plots.
 
     ### Parameters:
 
@@ -124,7 +123,7 @@ def config_metric_plot(metric_name, differ_nodes):
     return [x_values, cmap, title_complement]
 
 def get_trace_initial_id(metric_df):
-    """Gets the value of the first identifier of the trace.
+    """ Gets the value of the first identifier of the trace.
 
     ### Parameters:
 

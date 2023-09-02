@@ -1,7 +1,8 @@
 import pandas as pd
 
 def convert_datetime(trace, date_column):
-    """Converts any datetime format to timestamps in seconds. The first datetime will be considered as the 0 time.
+    """ Converts any datetime format to timestamps in seconds. The first datetime
+        will be considered as the 0 time.
 
     ### Parameters:
 
