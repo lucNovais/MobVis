@@ -14,7 +14,7 @@ from mobvis.utils.Utils import config_metric_plot
 def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_users=None,
                           users_to_display=None, hnorm=None, show_title=True, show_y_label = True,
                           img_width=600, img_height=560, title=' - Histogram', **kwargs):
-    """Generates a histogram of the given metric DataFrame.
+    """ Generates a histogram of the given metric DataFrame.
 
     ### Parameters:
 
@@ -130,7 +130,7 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
 def boxplot_metric(metric_df, metric_name, differ_nodes=False, specific_users=None,
                    users_to_display=None, show_title=True, show_y_label = True,
                    img_width=600, img_height=560, title='BoxPlot ', **kwargs):
-    """Generates a boxplot of the given metric DataFrame.
+    """ Generates a boxplot of the given metric DataFrame.
 
     ### Parameters:
 
@@ -238,7 +238,7 @@ def boxplot_metric(metric_df, metric_name, differ_nodes=False, specific_users=No
 def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=None,
                      bin_size_multiplier=1, users_to_display=None, show_title=True, show_y_label = True,
                      img_width=600, img_height=560, title=' - Distribution', **kwargs):
-    """Generates a distplot of the given metric DataFrame.
+    """ Generates a distplot of the given metric DataFrame.
 
     ### Parameters:
 
@@ -364,10 +364,33 @@ def plot_metric_dist(metric_df, metric_name, differ_nodes=False, specific_users=
 
     return fig
 
-def subplot_metric_histogram(metric_dfs, metric_name, trace_names, differ_nodes=False, specific_users=None,
+def subplot_metric_histogram(metric_dfs, metric_name, plot_names, differ_nodes=False, specific_users=None,
                             users_to_display=None, hnorm=None, show_title=True, show_y_label = True,
                             img_width=1200, img_height=580, title=' - Histograms', **kwargs):
-    fig = make_subplots(rows=1, cols=2, subplot_titles=trace_names)
+    """ Creates a subplot with many histograms of the given metric DataFrame.
+
+    ### Parameters:
+
+    `metric_dfs` (pandas.DataFrame): DataFrames corresponding to the extracted metrics from some mobvis.metrics module.
+    `metric_name` (str): Name of the metric on the DataFrame. (Ex.: TRVD, RADG, VIST etc).
+    `plot_names` (str[]): Specific names of each subplot that will be generated.
+    `differ_nodes` (bool): If each node needs to be differed on the plot.
+    `specific_users` (int[]): Specific nodes ids that the plot will use data from.
+    `users_to_display` (int[]): Maximum number of ids to be considered on the plot.
+    `hnorm` (str): Plotly histogram norm. See https://plotly.github.io/plotly.py-docs/generated/plotly.express.histogram.html
+    `show_title` (bool): If the graph title should appear on the image.
+    `show_y_label` (bool): If the y label should appear on the image.
+    `img_width` (float): Width of the generated image.
+    `img_height` (float): Height of the generated image.
+    `title` (str): Title of the graph.
+    `**kwargs` (dictionary): Dictionary that can contain specific Plotly arguments.
+
+    ### Returns:
+
+    `fig` (plotly.graph_objects.Figure): Plotly interactive subplot with all histograms generated from the given data and parameters.
+    """
+
+    fig = make_subplots(rows=1, cols=2, subplot_titles=plot_names)
 
     [x_values, cmap, title_complement] = config_metric_plot(metric_name, differ_nodes)
 

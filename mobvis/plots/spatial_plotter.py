@@ -11,7 +11,7 @@ from mobvis.utils.Utils import find_ranges
 def plot_trace(trace, specific_users=None, differ_nodes=True, users_to_display=None,
                show_title=True, show_y_label=True, title='Trace Movements', md='markers',
                img_width=600, img_height=560, **kwargs):
-    """Function to generate a figure of a trace movements with a heatmap indicating the timestamps.
+    """ Function to generate a figure of a trace movements with a heatmap indicating the timestamps.
 
     ### Parameters:
 
@@ -151,7 +151,7 @@ def plot_trace(trace, specific_users=None, differ_nodes=True, users_to_display=N
 def plot_trace3d(trace, specific_users=None, differ_nodes=True, users_to_display=None,
                  show_title=True, show_y_label=True, title='Trace Movements', md='markers+lines',
                  img_width=600, img_height=560, **kwargs):
-    """Function to generate a figure of a trace movements in three dimensions, with a heatmap.
+    """ Function to generate a figure of a trace movements in three dimensions, with a heatmap.
 
     ### Parameters:
 
@@ -290,7 +290,7 @@ def plot_trace3d(trace, specific_users=None, differ_nodes=True, users_to_display
 def plot_density(trace, specific_users=None, users_to_display=None, xrange=None, yrange=None,
                  show_title=True, show_y_label=True, title='Density',
                  img_width=600, img_height=560, **kwargs):
-    """Function that generates a figure corresponding to the density of the trace movements.
+    """ Function that generates a figure corresponding to the density of the trace movements.
 
     ### Parameters:
 
@@ -436,7 +436,7 @@ def plot_density(trace, specific_users=None, users_to_display=None, xrange=None,
 
 def plot_visit_order(trace_viso, specific_users=None, users_to_display=None, show_title=True,
                      show_y_label=True, title='Visit Order', img_width=600, img_height=560, **kwargs):
-    """Function that generates a figure with the visited Geo-locations in order.
+    """ Function that generates a figure with the visited Geo-locations in order.
 
     ### Parameters:
 
@@ -549,7 +549,7 @@ def plot_visit_order(trace_viso, specific_users=None, users_to_display=None, sho
 def plot_locations(sl_centers, specific_users=[0], differ_nodes=False,
                    users_to_display=None, limit_locations=False, show_title=True, show_y_label=True,
                    title='Geo-locations', img_width=600, img_height=560, **kwargs):
-    """Function to generate a figure of the stay locations visited by a node or a group of nodes.
+    """ Function to generate a figure of the stay locations visited by a node or a group of nodes.
 
     ### Parameters:
 
