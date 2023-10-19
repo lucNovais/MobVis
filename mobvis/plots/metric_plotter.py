@@ -9,11 +9,12 @@ from mobvis.utils import Timer
 from mobvis.utils.Utils import freedman_diaconis
 from mobvis.utils.Utils import fix_size_conditions
 from mobvis.utils.Utils import config_metric_plot
+from mobvis.utils.FileLogger import FileLogger
 
 @Timer.timed
 def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_users=None,
                           users_to_display=None, hnorm=None, show_title=True, show_y_label = True,
-                          img_width=600, img_height=560, title=' - Histogram', **kwargs):
+                          img_width=600, img_height=560, title=' - Histogram', logger=None, **kwargs):
     """ Generates a histogram of the given metric DataFrame.
 
     ### Parameters:
@@ -122,6 +123,14 @@ def plot_metric_histogram(metric_df, metric_name, differ_nodes=False, specific_u
         ))
 
     print('\nSuccessfully generated histogram!')
+
+    if logger:
+        logger.save_plot_files(
+            plot_name='hist',
+            plot_type='statistical',
+            metric_name=metric_name,
+            figure=fig
+        )
 
     return fig
 

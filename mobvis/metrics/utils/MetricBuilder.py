@@ -30,14 +30,43 @@ class MetricBuilder:
         `IMetric` child class that corresponds to the specified metric. 
         """
         if metric == 'TRVD':
-            return TravelDistance(trace_loc=kwargs.get('trace_loc'), dist_type=kwargs.get('dist_type'))
+            return TravelDistance(
+                trace_name=kwargs.get('trace_name'),
+                trace_loc=kwargs.get('trace_loc'),
+                dist_type=kwargs.get('dist_type'),
+                logger=kwargs.get('logger')
+            )
         if metric == 'RADG':
-            return RadiusOfGyration(trace=kwargs.get('trace'), trace_loc=kwargs.get('trace_loc'), sl_centers=kwargs.get('sl_centers'), homes=kwargs.get('homes'), dist_type=kwargs.get('dist_type'))
+            return RadiusOfGyration(
+                trace_name=kwargs.get('trace_name'),
+                trace=kwargs.get('trace'),
+                trace_loc=kwargs.get('trace_loc'),
+                sl_centers=kwargs.get('sl_centers'),
+                homes=kwargs.get('homes'),
+                dist_type=kwargs.get('dist_type'),
+                logger=kwargs.get('logger')
+            )
         if metric == 'VISO':
-            return VisitOrder(trace_loc=kwargs.get('trace_loc'))
+            return VisitOrder(
+                trace_name=kwargs.get('trace_name'),
+                trace_loc=kwargs.get('trace_loc'),
+                logger=kwargs.get('logger')
+            )
         if metric == 'VIST':
-            return VisitTime(trace_loc=kwargs.get('trace_loc'))
+            return VisitTime(
+                trace_name=kwargs.get('trace_name'),
+                trace_loc=kwargs.get('trace_loc'),
+                logger=kwargs.get('logger')
+            )
         if metric == 'TRVT':
-            return TravelTime(trace_loc=kwargs.get('trace_loc'))
+            return TravelTime(
+                trace_name=kwargs.get('trace_name'),
+                trace_loc=kwargs.get('trace_loc'),
+                logger=kwargs.get('logger')
+            )
         if metric == 'INCO':
-            return IntercontactTime(contacts_df=kwargs.get('contacts_df'))
+            return IntercontactTime(
+                trace_name=kwargs.get('trace_name'),
+                contacts_df=kwargs.get('contacts_df'),
+                logger=kwargs.get('logger')
+            )

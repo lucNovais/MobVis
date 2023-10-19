@@ -7,6 +7,8 @@ class FileLogger:
         self.trace_name = trace_name
         self.root_name = root_name
 
+        self.create_logs_folder()
+
     def create_logs_folder(self):
         print('Checking for the logs directory...')
 
@@ -23,9 +25,9 @@ class FileLogger:
         else:
             print('Logs directory found!')
         
-        self.create_trace_logs_root(self.trace_name)
+        self.create_trace_logs_root()
 
-    def create_trace_logs_root(self, trace_name):
+    def create_trace_logs_root(self):
         curr_datet = datetime.datetime.now()
 
         trace_logs_root_name = f'_{curr_datet.year}-' \
@@ -35,16 +37,16 @@ class FileLogger:
                                f'{curr_datet.minute}:' \
                                f'{curr_datet.second}'
         
-        trace_logs_root_name = self.root_name + '/' + trace_name + trace_logs_root_name
+        trace_logs_root_name = self.root_name + '/' + self.trace_name + trace_logs_root_name
 
         try:
             os.mkdir(trace_logs_root_name)
             self.log_father_folder = trace_logs_root_name
         except OSError as e:
-            print(f'Error while creating {trace_name} logs directory!\n{e}')
+            print(f'Error while creating {self.trace_name} logs directory!\n{e}')
             return
         
-        print(f'Successfully created logs folder for the {trace_name} trace!')
+        print(f'Successfully created logs folder for the {self.trace_name} trace!')
         self.create_preprocessing_folder()
         self.create_metrics_folder()
         self.create_visualizations_folder()
@@ -95,3 +97,22 @@ class FileLogger:
 
         parsed_trace.to_csv(parsed_file_name + '.csv', index=False)
         parsing_info_dataframe.to_csv(parsing_info_file_name + '.csv', index=False)
+
+    def save_metric_files(self, metric_name, metric_type, metric_df, parameters=None):
+        metric_file_name = self.metrics_father_folder + '/' + metric_type + '/' \
+                           + metric_name + '_' + self.trace_name
+        
+        if parameters:
+            parameters_file_name = self.metrics_father_folder + '/' + metric_type \
+                                + '/parameters_' + self.trace_name
+
+            parameters_dataframe = pd.DataFrame(parameters)
+            parameters_dataframe.to_csv(parameters_file_name + '.csv', index=False)
+
+        metric_df.to_csv(metric_file_name + '.csv', index=False)
+    
+    def save_plot_files(self, plot_name, plot_type, metric_name, figure):
+        plot_file_name = self.viz_father_folder + '/' + plot_type + '/' \
+                         + plot_name + '_' + metric_name +'_' + self.trace_name
+        
+        figure.write_image(plot_file_name + '.png')

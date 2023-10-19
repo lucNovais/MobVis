@@ -13,3 +13,7 @@ class IMetric(metaclass=ABCMeta):
     @abstractclassmethod
     def extract(self):
         pass
+
+    @abstractclassmethod
+    def file_export(self):
+        pass

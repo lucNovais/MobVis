@@ -7,6 +7,7 @@ from mobvis.utils import Timer
 from multiprocessing.pool import ThreadPool
 
 from mobvis.utils.Utils import haversine
+from mobvis.utils.FileLogger import FileLogger
 
 class Locations:
     def __init__(self):
@@ -93,7 +94,7 @@ class Locations:
 
     @classmethod
     @Timer.timed
-    def find_locations(cls, trace, max_d, pause_threshold, dist_type):
+    def find_locations(cls, trace_name, trace, max_d, pause_threshold, dist_type, logger=None):
         """Finds the Stay-locations and Geo-locations of all nodes of a trace.
         
         Params:
@@ -149,4 +150,40 @@ class Locations:
             
         print(trace_loc)
         print('Locations found!')
+
+        parameters = {
+            'trace_name': [trace_name],
+            'max_d': [max_d],
+            'pause_threshold': [pause_threshold],
+            'dist_type': [dist_type] 
+        }
+
+        cls.file_export(
+            trace_name=trace_name,
+            locations=trace_loc,
+            centers=sl_centers,
+            parameters=parameters,
+            logger=logger
+        )
+
         return [trace_loc, sl_centers]
+
+    @classmethod
+    def file_export(cls, trace_name, locations, centers, parameters, logger):
+        if not logger:
+            logger = FileLogger(trace_name)
+
+            logger.create_logs_folder()
+
+        logger.save_metric_files(
+            metric_name='locations',
+            metric_type='spatial',
+            metric_df=locations,
+            parameters=parameters
+        )
+
+        logger.save_metric_files(
+            metric_name='centers',
+            metric_type='spatial',
+            metric_df=centers
+        )

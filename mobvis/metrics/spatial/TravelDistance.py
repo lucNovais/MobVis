@@ -7,12 +7,13 @@ from concurrent.futures import ThreadPoolExecutor
 
 from scipy.spatial import distance
 from mobvis.utils.Utils import haversine
+from mobvis.utils.FileLogger import FileLogger
 
 # TODO: Distancia de cada posição do trace. d(pk, pk+1) p/ todo p
 # TODO: Velocidade media
 
 class TravelDistance(IMetric):
-    def __init__(self, trace_loc, dist_type):
+    def __init__(self, trace_name, trace_loc, dist_type, logger=None):
         """ Class that corresponds to the Travel Distance (TRVD) spatial metric.
 
         ### Attributes:
@@ -24,8 +25,13 @@ class TravelDistance(IMetric):
         self.name = 'TRVD'
 
         # self.trace_loc = trace_loc.loc[trace_loc.gl == True] if len(trace_loc) == 1 else [trace_loc[i].loc[trace_loc[i].gl == True] for i in range(0, len(trace_loc))]
+        self.trace_name = trace_name
         self.trace_loc = trace_loc.loc[trace_loc.gl == True]
         self.dist_type = dist_type
+
+        if logger:
+            self.logger = logger
+
 
     @Timer.timed
     def extract(self, proc_num=None, return_dict=None):
@@ -66,6 +72,7 @@ class TravelDistance(IMetric):
         if proc_num != None:
             return_dict[proc_num] = trvd_df
         else:
+            self.file_export(trvd_df)
             return trvd_df
 
     def haversine_iterator(self, trvd_df):
@@ -131,3 +138,20 @@ class TravelDistance(IMetric):
             prev_row = row[1]
         
         return trvd_df
+
+    def file_export(self, trvd_df):
+        if not self.logger:
+            logger = FileLogger(self.trace_name)
+
+            logger.create_logs_folder()
+            logger.save_metric_files(
+                metric_name='trvd',
+                metric_type='spatial',
+                metric_df=trvd_df
+            )
+        else:
+            self.logger.save_metric_files(
+                metric_name='trvd',
+                metric_type='spatial',
+                metric_df=trvd_df
+            )

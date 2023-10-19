@@ -46,7 +46,7 @@ class Parser:
 
     @classmethod
     @Timer.timed
-    def parse(cls, raw_trace, trace_name, is_ordered=True):
+    def parse(cls, raw_trace, trace_name, is_ordered=True, logger=None):
         """ Method that converts a given DataFrame to the MobVis standard format.
 
         ### Parameters:
@@ -75,10 +75,13 @@ class Parser:
             'number_of_rows_processed': [std_trace.shape[0]]
         }
 
-        logger = FileLogger(trace_name)
+        if not logger:
+            logger = FileLogger(trace_name)
 
-        logger.create_logs_folder()
-        logger.save_preprocessed_files(std_trace, parsing_informations)
+            logger.create_logs_folder()
+            logger.save_preprocessed_files(std_trace, parsing_informations)
+        else:
+            logger.save_preprocessed_files(std_trace, parsing_informations)
 
         return std_trace
 
