@@ -1,5 +1,6 @@
 import os
 import datetime
+import pandas as pd
 
 class FileLogger:
     def __init__(self, trace_name, root_name='processed_data_logs'):
@@ -53,7 +54,7 @@ class FileLogger:
 
         try:
             os.mkdir(preprocessed_folder)
-            self.preprocessed_father_folder = preprocessed_folder
+            self.preproc_father_folder = preprocessed_folder
         except OSError as e:
             print(f'Error while creating preprocessing directory!\n{e}')
             return
@@ -85,3 +86,12 @@ class FileLogger:
         except OSError as e:
             print(f'Error while creating visualizations directory!\n{e}')
             return
+
+    def save_preprocessed_files(self, parsed_trace, parsing_info):
+        parsed_file_name = self.preproc_father_folder + '/parsed_' + self.trace_name
+        parsing_info_file_name = self.preproc_father_folder + '/parsing_info_' + self.trace_name
+
+        parsing_info_dataframe = pd.DataFrame(parsing_info)
+
+        parsed_trace.to_csv(parsed_file_name + '.csv', index=False)
+        parsing_info_dataframe.to_csv(parsing_info_file_name + '.csv', index=False)

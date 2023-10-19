@@ -1,7 +1,9 @@
 import pandas as pd
+import datetime
 
 from mobvis.utils import Timer
 from mobvis.utils import Converters
+from mobvis.utils.FileLogger import FileLogger
 
 from multiprocessing.pool import ThreadPool
 
@@ -14,7 +16,7 @@ class Parser:
         pass
 
     @classmethod
-    def multiparse(cls, raw_traces, ordered_flags):
+    def multiparse(cls, raw_traces, trace_names, ordered_flags):
         """ Method that converts multiple DataFrames to the MobVis standard format
             concurrently, using threads.
 
@@ -32,7 +34,7 @@ class Parser:
         if len(ordered_flags) == 0:
             ordered_flags = [True for _ in range(0, len(raw_traces))]
 
-        args = [(raw_traces[i], ordered_flags[i]) for i in range(0, len(raw_traces))]
+        args = [(raw_traces[i], trace_names[i], ordered_flags[i]) for i in range(0, len(raw_traces))]
 
         std_traces = []
 
@@ -44,7 +46,7 @@ class Parser:
 
     @classmethod
     @Timer.timed
-    def parse(cls, raw_trace, is_ordered=True):
+    def parse(cls, raw_trace, trace_name, is_ordered=True):
         """ Method that converts a given DataFrame to the MobVis standard format.
 
         ### Parameters:
@@ -66,6 +68,17 @@ class Parser:
 
         print('Successfully parsed!\n')
         print(std_trace)
+
+        parsing_informations = {
+            'trace_name': [trace_name],
+            'parsing_datetime': [datetime.datetime.now()],
+            'number_of_rows_processed': [std_trace.shape[0]]
+        }
+
+        logger = FileLogger(trace_name)
+
+        logger.create_logs_folder()
+        logger.save_preprocessed_files(std_trace, parsing_informations)
 
         return std_trace
 
