@@ -45,25 +45,31 @@ To install this library on Debian Linux variants (Ubuntu, Mint, etc), simply fol
 git clone https://github.com/lucNovais/MobVis.git
 ```
 
-2. Create a Python virtual environment:
+2. Move to the library folder:
+
+```bash
+cd MobVis
+```
+
+3. Create a Python virtual environment:
 
 ```bash
 python3 -m venv venv
 ```
 
-3. Start the environment:
+4. Start the environment:
 
 ```bash
 source venv/bin/activate
 ```
 
-4. Install the libraries necessary for MobVis to work:
+5. Install the libraries necessary for MobVis to work:
 
 ```bash
 pip install -r requirements.txt
 ```
 
-5. Install MobVis locally:
+6. Install MobVis locally:
 
 ```bash
 pip install .
