@@ -13,9 +13,8 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
 2. [ Installation ](#computer-installation)
    1. [ Windows installation ](#windows-installation)
    2. [ Linux installation ](#linux-installation)
-3. [ Examples ](#keyboard-examples)
-4. [ Citing ](#newspaper-citing)
-5. [ Collaborators ](#envelope-collaborators)
+3. [ Citing ](#newspaper-citing)
+4. [ Collaborators ](#envelope-collaborators)
 
 ## :book: Documentation
 
@@ -27,11 +26,49 @@ MobVis mainly uses the [ Pandas ](https://pandas.pydata.org/) library for data p
 
 In this section, you will be presented with a step-by-step guide on how to install the library locally. This library uses some other packages to work, which are listed below:
 
+- pandas - 1.5.2
+- scipy - 1.9.3
+- plotly - 5.11.0
+- kaleido - 0.2.1
+
 ### Windows Instalation
 
 The Windows Instalation guide is still under development.
 
 ### Linux Instalation
+
+To install this library on Debian Linux variants (Ubuntu, Mint, etc), simply follow the following steps:
+
+1. Clone the repository using the command:
+
+```bash
+git clone https://github.com/lucNovais/MobVis.git
+```
+
+2. Create a Python virtual environment:
+
+```bash
+python3 -m venv venv
+```
+
+3. Start the environment:
+
+```bash
+source venv/bin/activate
+```
+
+4. Install the libraries necessary for MobVis to work:
+
+```bash
+pip install -r requirements.txt
+```
+
+5. Install MobVis locally:
+
+```bash
+pip install .
+```
+These are all the steps necessary to have an environment configured to start using MobVis. As a recommendation, I suggest carrying out developments in a `Jupyter Notebook`.
 
 ## :newspaper: Citing
 
